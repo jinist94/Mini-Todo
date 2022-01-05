@@ -35,3 +35,18 @@
   padding: 15px;
   border-bottom: 1px solid #ededed;
 }
+.todo-list li {
+  display: flex;
+  justify-content: space-between;
+}
+
+.todo-list li > .left {
+  display: flex;
+}
+
+.todo-list .todo-name {
+  margin-left: 0.6em;
+}
+
+.check-icon {
+}
