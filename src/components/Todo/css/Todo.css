@@ -1,0 +1,75 @@
+.todo-container {
+  width: 100%;
+  padding: 5%;
+}
+
+.title {
+  font-size: 2rem;
+}
+
+.todo-form {
+  display: flex;
+  background-color: #f3f3f3;
+  padding: 1em;
+  border-radius: 4px;
+  border: 1px solid #ededed;
+}
+.todo-form input {
+  flex: 1 1;
+  font-size: 0.9rem;
+  padding: 0.7em;
+  border: 0;
+  background-color: #fafafa;
+  border-radius: 2px;
+}
+
+.todo-form button {
+  width: 10%;
+  background-color: #fafafa;
+  border: 1px solid #ededed;
+  margin-left: 1em;
+}
+
+.todo-list li {
+  font-size: 1rem;
+  padding: 15px;
+  border-bottom: 1px solid #ededed;
+}
+.todo-list li {
+  display: flex;
+  justify-content: space-between;
+}
+
+.todo-list li > .left {
+  display: flex;
+  /* pointer-events: none; */
+}
+
+.todo-list .todo-name {
+  margin-left: 0.6em;
+}
+
+.check-icon {
+}
+
+.drag {
+  display: flex;
+  flex-direction: column;
+}
+.drag li {
+  visibility: visible;
+  padding: 1em;
+  border: 1px solid #ddd;
+  background-color: #f7f7f7;
+  cursor: grab;
+}
+.grabbing {
+  cursor: grab;
+  opacity: 0.5;
+  -webkit-box-shadow: 5px 5px 15px 5px rgba(0, 0, 0, 0.2);
+  box-shadow: 5px 5px 15px 5px rgba(0, 0, 0, 0.2);
+}
+
+.drag li.selected {
+  background-color: #ddd;
+}

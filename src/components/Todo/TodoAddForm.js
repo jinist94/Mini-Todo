@@ -1,7 +1,10 @@
 import React, { useState } from "react";
+import { useDispatch } from "react-redux";
+import { addTodo } from "../../modules/todo";
 
-const TodoAddForm = ({ onAddTodo }) => {
+const TodoAddForm = () => {
   const [todoValue, setTodoValue] = useState("");
+  const dispatch = useDispatch();
 
   const onChange = (event) => {
     const { value } = event.target;
@@ -9,9 +12,11 @@ const TodoAddForm = ({ onAddTodo }) => {
   };
   const onSubmit = (event) => {
     event.preventDefault();
-    const newTodo = { id: Date.now(), title: todoValue };
-    onAddTodo(newTodo);
-    setTodoValue("");
+    if (todoValue) {
+      const newTodo = { id: Date.now(), title: todoValue };
+      setTodoValue("");
+      dispatch(addTodo(newTodo));
+    }
   };
   return (
     <form className="todo-form" onSubmit={onSubmit}>

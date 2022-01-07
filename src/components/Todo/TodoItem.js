@@ -1,12 +1,30 @@
 import React from "react";
+import { useDispatch } from "react-redux";
+import {
+  addTodo,
+  deleteTodo,
+  deleteFinished,
+  addFinished,
+} from "../../modules/todo";
 
-const TodoList = ({ todo, type, onDelete, onMoveTodo }) => {
+const TodoItem = ({ todo, type }) => {
+  const dispatch = useDispatch();
+
   const handleDelete = () => {
-    onDelete(todo.id, type);
+    if (type === "todo") dispatch(deleteTodo(todo.id));
+    if (type === "finished") dispatch(deleteFinished(todo.id));
   };
   const handleClickChekck = () => {
-    onMoveTodo(todo, type);
+    if (type === "todo") {
+      dispatch(deleteTodo(todo.id));
+      dispatch(addFinished(todo));
+    }
+    if (type === "finished") {
+      dispatch(deleteFinished(todo.id));
+      dispatch(addTodo(todo));
+    }
   };
+
   return (
     <li>
       <div className="left">
@@ -70,4 +88,4 @@ const TodoList = ({ todo, type, onDelete, onMoveTodo }) => {
   );
 };
 
-export default TodoList;
+export default TodoItem;
