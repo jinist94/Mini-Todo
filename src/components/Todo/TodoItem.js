@@ -1,5 +1,6 @@
 import React from "react";
 import { useDispatch } from "react-redux";
+import { useState } from "react/cjs/react.development";
 import {
   addTodo,
   deleteTodo,
@@ -7,14 +8,25 @@ import {
   addFinished,
 } from "../../modules/todo";
 
-const TodoItem = ({ todo, type }) => {
+const TodoItem = ({
+  todo,
+  type,
+  index,
+  onDragStart,
+  onDragOver,
+  onDragEnter,
+  onDragLeave,
+  onDrop,
+  onClick,
+  onDragEnd,
+}) => {
   const dispatch = useDispatch();
 
   const handleDelete = () => {
     if (type === "todo") dispatch(deleteTodo(todo.id));
     if (type === "finished") dispatch(deleteFinished(todo.id));
   };
-  const handleClickChekck = () => {
+  const handleClickChekck = (event) => {
     if (type === "todo") {
       dispatch(deleteTodo(todo.id));
       dispatch(addFinished(todo));
@@ -25,11 +37,43 @@ const TodoItem = ({ todo, type }) => {
     }
   };
 
+  const handleDragStart = (event) => {
+    onDragStart(event);
+  };
+  const handleDragOver = (event) => {
+    onDragOver(event);
+  };
+  const handleDragEnter = (event) => {
+    onDragEnter(event);
+  };
+  const handleDragLeave = (event) => {
+    onDragLeave(event);
+  };
+  const handleDrop = (event) => {
+    onDrop(event);
+  };
+  const handleDropEnd = (event) => {
+    onDragEnd(event);
+  };
+  const handleClick = (event) => {
+    onClick(event);
+  };
+
   return (
-    <li>
+    <li
+      data-index={index}
+      onDragStart={handleDragStart}
+      onDragOver={handleDragOver}
+      onDragEnter={handleDragEnter}
+      onDragLeave={handleDragLeave}
+      onDrop={handleDrop}
+      onDragEnd={handleDropEnd}
+      onMouseDown={handleClick}
+      draggable
+    >
       <div className="left">
         {type === "todo" ? (
-          <i className="check-icon" onClick={handleClickChekck}>
+          <i className="uncheck-icon" onClick={handleClickChekck}>
             <svg
               version="1.1"
               xmlns="http://www.w3.org/2000/svg"
@@ -47,7 +91,7 @@ const TodoItem = ({ todo, type }) => {
             </svg>
           </i>
         ) : (
-          <i className="check-icon" onClick={handleClickChekck}>
+          <i className="oncheck-icon" onClick={handleClickChekck}>
             <svg
               version="1.1"
               xmlns="http://www.w3.org/2000/svg"
@@ -68,7 +112,7 @@ const TodoItem = ({ todo, type }) => {
 
         <span className="todo-name">{todo.title}</span>
       </div>
-      <i onClick={handleDelete}>
+      <i className="close-icon" onClick={handleDelete}>
         <svg
           version="1.1"
           xmlns="http://www.w3.org/2000/svg"

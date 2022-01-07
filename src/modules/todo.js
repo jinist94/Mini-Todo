@@ -2,6 +2,9 @@ const initialTodos = {
   todos: [
     { id: 1, title: "밥먹기" },
     { id: 2, title: "청소하기" },
+    { id: 3, title: "공부하기" },
+    { id: 4, title: "샤워하기" },
+    { id: 5, title: "독서하기" },
   ],
   finished: [],
 };
@@ -9,6 +12,7 @@ const initialTodos = {
 // action type
 const ADD_TODO = "todo/ADD_TODO";
 const DELETE_TODO = "todo/DELETE_TODO";
+const UPDATE_TODO = "todo/UPDATE_TODO";
 
 const ADD_FINISHED = "todo/ADD_FINISHED";
 const DELETE_FINISHED = "todo/DELETE_FINISHED";
@@ -20,6 +24,10 @@ export const addTodo = (todo) => {
 
 export const deleteTodo = (id) => {
   return { type: DELETE_TODO, data: { id } };
+};
+
+export const updateTodo = (todo) => {
+  return { type: UPDATE_TODO, data: { todo } };
 };
 
 export const addFinished = (todo) => {
@@ -40,10 +48,11 @@ const todoReducer = (state = initialTodos, action) => {
         ...state,
         todos: { ...state }.todos.filter((item) => item.id !== data.id),
       };
+    case UPDATE_TODO:
+      return { ...state, todos: data.todo };
     case ADD_FINISHED:
       return { ...state, finished: [data.todo, ...state.finished] };
     case DELETE_FINISHED:
-      console.log("딜리트 피니쉬");
       return {
         ...state,
         finished: { ...state }.finished.filter((item) => item.id !== data.id),
