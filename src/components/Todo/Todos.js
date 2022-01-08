@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import "./css/Todo.css";
+import "./css/Todo.scss";
 
 import Progress from "./Progress";
 import Finished from "./Finished";
