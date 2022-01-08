@@ -1,5 +1,5 @@
 import React from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useState } from "react/cjs/react.development";
 import {
   addTodo,
@@ -8,6 +8,7 @@ import {
   deleteFinished,
   addFinished,
   updateFinished,
+  addSelectedTodo,
 } from "../../modules/todo";
 
 const TodoItem = ({
@@ -22,6 +23,7 @@ const TodoItem = ({
   onClick,
   onDragEnd,
 }) => {
+  const selectedTodo = useSelector((state) => state.selectedTodo);
   const dispatch = useDispatch();
 
   const handleDelete = () => {
@@ -29,6 +31,7 @@ const TodoItem = ({
     if (type === "finished") dispatch(deleteFinished(todo.id));
   };
   const handleClickChekck = (event) => {
+    event.stopPropagation();
     if (type === "todo") {
       dispatch(deleteTodo(todo.id));
       dispatch(addFinished(todo));
@@ -65,8 +68,18 @@ const TodoItem = ({
   const handleDropEnd = (event) => {
     onDragEnd(event);
   };
-  const handleClick = (event) => {
-    onClick(event);
+
+  const selectTodo = (event) => {
+    if (event.target.tagName === "svg") {
+      return;
+    }
+    if (selectedTodo.element) {
+      selectedTodo.element.classList.remove("selected");
+      event.currentTarget.classList.add("selected");
+    } else {
+      event.currentTarget.classList.add("selected");
+    }
+    dispatch(addSelectedTodo(todo, event.currentTarget));
   };
 
   return (
@@ -78,7 +91,7 @@ const TodoItem = ({
       onDragLeave={handleDragLeave}
       onDrop={handleDrop}
       onDragEnd={handleDropEnd}
-      onMouseDown={handleClick}
+      onMouseDown={selectTodo}
       draggable
     >
       <div className="left">

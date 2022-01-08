@@ -3,16 +3,26 @@ import "./css/Todo.scss";
 
 import Progress from "./Progress";
 import Finished from "./Finished";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+
+import { addSelectedTodo } from "../../modules/todo";
+import SelectedTodo from "../SelectedTodo";
 
 const Todos = (props) => {
-  const todos = useSelector((state) => state);
-  console.log(todos, "state");
+  const todoState = useSelector((state) => state);
+  const { todos, finished, selectedTodo } = todoState;
 
   return (
     <div className="todo-container">
-      <Progress todos={todos.todos} />
-      <Finished finished={todos.finished} />
+      <div className="content">
+        <Progress todos={todos} />
+        <Finished finished={finished} />
+      </div>
+      {selectedTodo.todoData && (
+        <div className="right-column">
+          <SelectedTodo selectedTodo={selectedTodo} />
+        </div>
+      )}
     </div>
   );
 };

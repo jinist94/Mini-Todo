@@ -15,17 +15,6 @@ const Progress = ({ todos }) => {
     onDrop,
   } = useListDrag(todos);
 
-  const [clickTodo, setClickTodo] = useState(null);
-
-  const onClick = (event) => {
-    if (clickTodo) {
-      clickTodo.classList.remove("selected");
-      event.currentTarget.classList.add("selected");
-    } else {
-      event.currentTarget.classList.add("selected");
-    }
-    setClickTodo(event.currentTarget);
-  };
   return (
     <div>
       <h2 className="title">오늘 할 일</h2>
@@ -43,7 +32,6 @@ const Progress = ({ todos }) => {
             onDragEnter={onDragEnter}
             onDragLeave={onDragLeave}
             onDrop={onDrop}
-            onClick={onClick}
             onDragEnd={onDragEnd}
           />
         ))}

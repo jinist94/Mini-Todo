@@ -7,6 +7,10 @@ const initialTodos = {
     { id: 5, title: "5. 독서하기" },
   ],
   finished: [],
+  selectedTodo: {
+    todoData: null,
+    element: null,
+  },
 };
 
 // action type
@@ -17,6 +21,8 @@ const UPDATE_TODO = "todo/UPDATE_TODO";
 const ADD_FINISHED = "todo/ADD_FINISHED";
 const DELETE_FINISHED = "todo/DELETE_FINISHED";
 const UPDATE_FINISHED = "todo/UPDATE_FINISHED";
+
+const ADD_SELECTED_TODO = "todo/ADD_SELECTED_TODO";
 
 // action function
 export const addTodo = (todo) => {
@@ -42,6 +48,10 @@ export const updateFinished = (todo) => {
   return { type: UPDATE_FINISHED, data: { todo } };
 };
 
+export const addSelectedTodo = (todo, element) => {
+  return { type: ADD_SELECTED_TODO, data: { todoData: todo, element } };
+};
+
 const todoReducer = (state = initialTodos, action) => {
   const { data } = action;
   switch (action.type) {
@@ -63,6 +73,11 @@ const todoReducer = (state = initialTodos, action) => {
       };
     case UPDATE_FINISHED:
       return { ...state, finished: data.todo };
+    case ADD_SELECTED_TODO:
+      return {
+        ...state,
+        selectedTodo: { todoData: data.todoData, element: data.element },
+      };
     default:
       return state;
   }
