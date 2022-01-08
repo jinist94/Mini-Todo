@@ -9,7 +9,7 @@ const list = [
   { id: 5, name: "5. 할 일5" },
 ];
 
-export const DragAndDrop = (props) => {
+const DragAndDrop = (props) => {
   const [lists, setLists] = useState(list);
   const [drag, setDrag] = useState(null);
   const [clickTodo, setClickTodo] = useState(null);
@@ -30,15 +30,17 @@ export const DragAndDrop = (props) => {
   };
 
   const onDragLeave = (event) => {
-    event.target.style.border = "0";
+    event.target.classList.remove("top");
+    event.target.classList.remove("bottom");
   };
   const onDragEnter = (event) => {
+    console.log(event.target);
     let dragIndex = Number(drag.dataset.index);
     let targetIndex = Number(event.target.dataset.index);
     if (dragIndex < targetIndex) {
-      event.target.style.borderBottom = "2px solid #000";
+      event.target.classList.add("bottom");
     } else {
-      event.target.style.borderTop = "2px solid #000";
+      event.target.classList.add("top");
     }
   };
   const onDrop = (event) => {
@@ -53,7 +55,8 @@ export const DragAndDrop = (props) => {
       _lists.splice(targetIndex, 0, _listItem);
       setLists(_lists);
     }
-    event.target.style.border = "0";
+    event.target.classList.remove("top");
+    event.target.classList.remove("bottom");
   };
 
   const onClick = (event) => {

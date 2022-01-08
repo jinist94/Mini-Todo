@@ -1,10 +1,10 @@
 const initialTodos = {
   todos: [
-    { id: 1, title: "밥먹기" },
-    { id: 2, title: "청소하기" },
-    { id: 3, title: "공부하기" },
-    { id: 4, title: "샤워하기" },
-    { id: 5, title: "독서하기" },
+    { id: 1, title: "1. 밥먹기" },
+    { id: 2, title: "2. 청소하기" },
+    { id: 3, title: "3. 공부하기" },
+    { id: 4, title: "4. 샤워하기" },
+    { id: 5, title: "5. 독서하기" },
   ],
   finished: [],
 };
@@ -16,6 +16,7 @@ const UPDATE_TODO = "todo/UPDATE_TODO";
 
 const ADD_FINISHED = "todo/ADD_FINISHED";
 const DELETE_FINISHED = "todo/DELETE_FINISHED";
+const UPDATE_FINISHED = "todo/UPDATE_FINISHED";
 
 // action function
 export const addTodo = (todo) => {
@@ -37,6 +38,9 @@ export const addFinished = (todo) => {
 export const deleteFinished = (id) => {
   return { type: DELETE_FINISHED, data: { id } };
 };
+export const updateFinished = (todo) => {
+  return { type: UPDATE_FINISHED, data: { todo } };
+};
 
 const todoReducer = (state = initialTodos, action) => {
   const { data } = action;
@@ -57,6 +61,8 @@ const todoReducer = (state = initialTodos, action) => {
         ...state,
         finished: { ...state }.finished.filter((item) => item.id !== data.id),
       };
+    case UPDATE_FINISHED:
+      return { ...state, finished: data.todo };
     default:
       return state;
   }

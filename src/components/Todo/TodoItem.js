@@ -4,8 +4,10 @@ import { useState } from "react/cjs/react.development";
 import {
   addTodo,
   deleteTodo,
+  updateTodo,
   deleteFinished,
   addFinished,
+  updateFinished,
 } from "../../modules/todo";
 
 const TodoItem = ({
@@ -50,7 +52,15 @@ const TodoItem = ({
     onDragLeave(event);
   };
   const handleDrop = (event) => {
-    onDrop(event);
+    const update = onDrop(event);
+
+    if (type === "todo") {
+      dispatch(updateTodo(update));
+    }
+
+    if (type === "finished") {
+      dispatch(updateFinished(update));
+    }
   };
   const handleDropEnd = (event) => {
     onDragEnd(event);

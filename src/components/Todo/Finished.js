@@ -1,7 +1,17 @@
 import React from "react";
 import TodoItem from "./TodoItem";
 
+import { useListDrag } from "../../lib/custom/DragAndDrop";
+
 const Finished = ({ finished }) => {
+  const {
+    onDragStart,
+    onDragOver,
+    onDragEnd,
+    onDragLeave,
+    onDragEnter,
+    onDrop,
+  } = useListDrag(finished);
   return (
     <div className="finished">
       <h3>완료된 할 일</h3>
@@ -13,6 +23,12 @@ const Finished = ({ finished }) => {
             todos={finished}
             index={index}
             type="finished"
+            onDragStart={onDragStart}
+            onDragOver={onDragOver}
+            onDragEnter={onDragEnter}
+            onDragLeave={onDragLeave}
+            onDrop={onDrop}
+            onDragEnd={onDragEnd}
           />
         ))}
       </ul>
