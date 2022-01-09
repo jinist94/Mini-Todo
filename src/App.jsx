@@ -1,4 +1,4 @@
-import "./App.css";
+import "./App.scss";
 import Todos from "./components/Todo/Todos";
 
 function App() {

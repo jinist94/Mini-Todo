@@ -15,6 +15,10 @@ h3 {
   margin: 0;
 }
 
+button {
+  all: unset;
+}
+
 html {
   height: 100%;
 }
@@ -28,4 +32,12 @@ body {
 
 .container {
   height: 100%;
+}
+
+i.arr-icon .svg {
+  width: 20px;
+  height: 20px;
+}
+i.arr-icon.next {
+  transform: rotate(180deg);
 }

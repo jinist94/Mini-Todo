@@ -1,0 +1,60 @@
+@import "../variable";
+
+.todo-calendar {
+  width: 400px;
+  border: 1px solid $border-gray;
+  padding: 1em;
+
+  .year-month {
+    font-weight: bold;
+    display: block;
+    margin : {
+      left: 1em;
+    }
+  }
+  .calendar-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 0.5em 0;
+    border-bottom: 1px solid $border-gray;
+    padding-bottom: 0.5em;
+    .calendar-btn {
+      margin-right: 0.5em;
+      button {
+        padding: 0.5em;
+        border: 1px solid $border-gray;
+        font-size: 0.9em;
+        cursor: pointer;
+        &:active {
+          background-color: #f7f7f7;
+        }
+        &.next {
+          margin-left: 0.3em;
+        }
+      }
+    }
+  }
+
+  .calendar-days {
+    display: flex;
+    flex-wrap: wrap;
+  }
+  .calendar-dates {
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+  }
+  .cell {
+    width: 14.2%;
+    text-align: center;
+    font-size: 0.9rem;
+    padding: 0.5em 0;
+  }
+  .prev-dates {
+    color: $font-gray;
+  }
+  .next-dates {
+    color: $font-gray;
+  }
+}
