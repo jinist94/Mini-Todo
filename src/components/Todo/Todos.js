@@ -3,22 +3,24 @@ import "./css/Todo.scss";
 
 import Progress from "./Progress";
 import Finished from "./Finished";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 
-import { addSelectedTodo } from "../../modules/todo";
 import SelectedTodo from "../SelectedTodo";
 import Calendar from "../Calendar/Calendar";
+import TodoAddForm from "./TodoAddForm";
 
 const Todos = (props) => {
   const todoState = useSelector((state) => state);
   const { todos, finished, selectedTodo } = todoState;
+  console.log(todos);
 
   return (
     <div className="todo-container">
       <div className="content">
+        <TodoAddForm />
         <Progress todos={todos} />
         <Finished finished={finished} />
-        <Calendar />
+        {/* <Calendar /> */}
       </div>
       {selectedTodo.todoData && (
         <div className="right-column">

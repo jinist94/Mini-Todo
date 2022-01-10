@@ -1,6 +1,7 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useState } from "react/cjs/react.development";
+
+import { dateToString } from "../../lib/util/date";
 import {
   addTodo,
   deleteTodo,
@@ -133,7 +134,12 @@ const TodoItem = ({
           </i>
         )}
 
-        <span className="todo-name">{todo.title}</span>
+        <div className="simple-info">
+          <span className="todo-name">{todo.title}</span>
+          {todo.dueDate && (
+            <span className="due-date">{dateToString(todo.dueDate)} 까지</span>
+          )}
+        </div>
       </div>
       <i className="close-icon" onClick={handleDelete}>
         <svg

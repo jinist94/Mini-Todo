@@ -1,10 +1,13 @@
+const _today = new Date();
+const _tomorrow = new Date(_today.setDate(_today.getDate() + 1));
+
 const initialTodos = {
   todos: [
-    { id: 1, title: "1. 밥먹기" },
-    { id: 2, title: "2. 청소하기" },
-    { id: 3, title: "3. 공부하기" },
-    { id: 4, title: "4. 샤워하기" },
-    { id: 5, title: "5. 독서하기" },
+    { id: 1, title: "1. 밥먹기", dueDate: _tomorrow },
+    { id: 2, title: "2. 청소하기", dueDate: _tomorrow },
+    { id: 3, title: "3. 공부하기", dueDate: "" },
+    { id: 4, title: "4. 샤워하기", dueDate: "" },
+    { id: 5, title: "5. 독서하기", dueDate: "" },
   ],
   finished: [],
   selectedTodo: {

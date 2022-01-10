@@ -1,14 +1,18 @@
-import React, { useEffect, useRef } from "react";
+import React, { forwardRef, useEffect, useRef } from "react";
 import { useState } from "react/cjs/react.development";
 import "./Calendar.scss";
 
-const Calendar = (props) => {
+const Calendar = forwardRef((props, ref) => {
+  const { seleteDueDate } = props;
   const [thisCalendar, setThisCalendar] = useState(null);
   const [currentDate, setCurrentDate] = useState({
     date: new Date(),
     year: new Date().getFullYear(),
     month: new Date().getMonth(),
   });
+
+  const [clickDate, setClickDate] = useState();
+
   const calendarMaker = () => {
     const prevLast = new Date(currentDate.year, currentDate.month, 0);
     const thisLast = new Date(currentDate.year, currentDate.month + 1, 0);
@@ -20,19 +24,25 @@ const Calendar = (props) => {
     const thisLastDay = thisLast.getDay(); // 1
 
     const prevDates = [];
-    const thisDates = [...Array(thisLastDate + 1).keys()].slice(1);
+    // const thisDates = [...Array(thisLastDate + 1).keys()].slice(1); //
+    const thisDates = [];
     const nextDates = [];
 
+    for (let i = 1; i < thisLastDate + 1; i++) {
+      thisDates.push([i, "this"]);
+    }
     if (prevLastDay !== 6) {
       for (let i = 0; i < prevLastDay + 1; i++) {
-        prevDates.unshift(prevLastDate - i);
+        prevDates.unshift([prevLastDate - i, "prev"]);
       }
     }
-    // 다음달 날짜 계산
+
     for (let i = 1; i < 7 - thisLastDay; i++) {
-      nextDates.push(i);
+      nextDates.push([i, "next"]);
     }
-    setThisCalendar({ prev: prevDates, thisDate: thisDates, next: nextDates });
+    const dates = prevDates.concat(thisDates, nextDates);
+    console.log(dates);
+    setThisCalendar(dates);
   };
 
   const clickPrev = () => {
@@ -46,12 +56,25 @@ const Calendar = (props) => {
     setCurrentDate({ date, year: date.getFullYear(), month: date.getMonth() });
   };
 
+  const onClickDate = (event, date) => {
+    let month = currentDate.month;
+
+    if (date[1] == "prev") {
+      month = currentDate.month - 1;
+    }
+    if (date[1] == "next") {
+      month = currentDate.month + 1;
+    }
+    const newDate = new Date(currentDate.year, month, date[0]);
+    seleteDueDate(newDate);
+  };
+
   useEffect(() => {
     calendarMaker();
   }, [currentDate]);
 
   return (
-    <div className="todo-calendar">
+    <div className="todo-calendar" ref={ref}>
       <div className="calendar-top">
         <span className="year-month">{`${currentDate.year}년 ${
           currentDate.month + 1
@@ -90,36 +113,33 @@ const Calendar = (props) => {
         </div>
       </div>
       <div className="calendar-days">
-        <div className="cell">일</div>
-        <div className="cell">월</div>
-        <div className="cell">화</div>
-        <div className="cell">수</div>
-        <div className="cell">목</div>
-        <div className="cell">금</div>
-        <div className="cell">토</div>
+        <div className="t-cell">일</div>
+        <div className="t-cell">월</div>
+        <div className="t-cell">화</div>
+        <div className="t-cell">수</div>
+        <div className="t-cell">목</div>
+        <div className="t-cell">금</div>
+        <div className="t-cell">토</div>
       </div>
       <div className="calendar-dates">
         {thisCalendar &&
-          thisCalendar?.prev.map((day, i) => (
-            <div key={i} className="prev-dates cell">
-              {day}
-            </div>
-          ))}
-        {thisCalendar &&
-          thisCalendar?.thisDate.map((day, i) => (
-            <div key={i} className="date cell">
-              {day}
-            </div>
-          ))}
-        {thisCalendar &&
-          thisCalendar?.next.map((day, i) => (
-            <div key={i} className="next-dates cell">
-              {day}
+          thisCalendar.map((date, i) => (
+            <div
+              key={i}
+              className={` ${
+                date[1] == "prev"
+                  ? "prev-dates"
+                  : date[1] == "next"
+                  ? "next-dates"
+                  : "date"
+              } cell`}
+              onClick={(event) => onClickDate(event, date)}
+            >
+              {date[0]}
             </div>
           ))}
       </div>
     </div>
   );
-};
-
+});
 export default Calendar;
