@@ -27,9 +27,18 @@ const Calendar = forwardRef((props, ref) => {
     // const thisDates = [...Array(thisLastDate + 1).keys()].slice(1); //
     const thisDates = [];
     const nextDates = [];
+    const today = new Date();
 
     for (let i = 1; i < thisLastDate + 1; i++) {
-      thisDates.push([i, "this"]);
+      if (
+        today.getMonth() === currentDate.month &&
+        today.getFullYear() === currentDate.year &&
+        today.getDate() === i
+      ) {
+        thisDates.push([i, "today"]);
+      } else {
+        thisDates.push([i, "this"]);
+      }
     }
     if (prevLastDay !== 6) {
       for (let i = 0; i < prevLastDay + 1; i++) {
@@ -125,17 +134,23 @@ const Calendar = forwardRef((props, ref) => {
         {thisCalendar &&
           thisCalendar.map((date, i) => (
             <div
+              className="cell"
               key={i}
-              className={` ${
-                date[1] == "prev"
-                  ? "prev-dates"
-                  : date[1] == "next"
-                  ? "next-dates"
-                  : "date"
-              } cell`}
               onClick={(event) => onClickDate(event, date)}
             >
-              {date[0]}
+              <span
+                className={` ${
+                  date[1] == "prev"
+                    ? "prev-dates"
+                    : date[1] == "next"
+                    ? "next-dates"
+                    : date[1] == "today"
+                    ? "today"
+                    : "date"
+                } cell-date`}
+              >
+                {date[0]}
+              </span>
             </div>
           ))}
       </div>

@@ -1,7 +1,7 @@
 @import "../variable";
 
 .todo-calendar {
-  width: 400px;
+  width: 350px;
   border: 1px solid $border-gray;
   padding: 1em;
   position: absolute;
@@ -54,18 +54,34 @@
   }
   .cell {
     width: 14.2%;
+    height: fit-content;
     text-align: center;
     font-size: 0.9rem;
-    padding: 0.5em 0;
+    padding: 0.2em 0.2em;
     cursor: pointer;
-    &:hover {
-      background-color: $bg-rightGray;
+
+    .cell-date {
+      padding: 0.3em 0;
+      display: block;
+      &:hover {
+        background-color: $bg-rightGray;
+        border-radius: 3px;
+      }
     }
-  }
-  .prev-dates {
-    color: $font-gray;
-  }
-  .next-dates {
-    color: $font-gray;
+    .prev-dates {
+      color: $font-gray;
+    }
+    .next-dates {
+      color: $font-gray;
+    }
+    .today {
+      background-color: #3849f5;
+      color: white;
+      border-radius: 3px;
+      font-weight: bold;
+      &:hover {
+        background-color: #3849f5;
+      }
+    }
   }
 }

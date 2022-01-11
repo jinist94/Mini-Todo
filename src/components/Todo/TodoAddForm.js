@@ -2,7 +2,7 @@ import React, { useEffect, useState, useRef } from "react";
 import { useDispatch } from "react-redux";
 import { addTodo } from "../../modules/todo";
 import Calendar from "../Calendar/Calendar";
-import { dateToString } from "../../lib/util/date";
+import { dateConverder } from "../../lib/util/date";
 
 const TodoAddForm = () => {
   const [todoValue, setTodoValue] = useState("");
@@ -61,7 +61,8 @@ const TodoAddForm = () => {
       </form>
       <div className="due-date">
         <button className="date" onClick={showCalendar}>
-          기한 설정 {dueDate && <span>{dateToString(dueDate)}</span>}
+          {!dueDate && <span>기한 설정</span>}
+          {dueDate && <span>{dateConverder(dueDate)}</span>}
         </button>
         {openCalendar && (
           <Calendar ref={calendarRef} seleteDueDate={seleteDueDate} />

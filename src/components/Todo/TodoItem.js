@@ -1,7 +1,7 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 
-import { dateToString } from "../../lib/util/date";
+import { dateConverder } from "../../lib/util/date";
 import {
   addTodo,
   deleteTodo,
@@ -11,6 +11,7 @@ import {
   updateFinished,
   addSelectedTodo,
 } from "../../modules/todo";
+import DueDateText from "./DueDateText";
 
 const TodoItem = ({
   todo,
@@ -137,7 +138,8 @@ const TodoItem = ({
         <div className="simple-info">
           <span className="todo-name">{todo.title}</span>
           {todo.dueDate && (
-            <span className="due-date">{dateToString(todo.dueDate)} 까지</span>
+            // <span className="due-date">{dateConverder(todo.dueDate)}</span>
+            <DueDateText dueDate={todo.dueDate} />
           )}
         </div>
       </div>
