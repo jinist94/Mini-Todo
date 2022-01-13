@@ -81,7 +81,7 @@ const TodoItem = ({
     } else {
       event.currentTarget.classList.add("selected");
     }
-    dispatch(addSelectedTodo(todo, event.currentTarget));
+    dispatch(addSelectedTodo(todo, event.currentTarget, index));
   };
 
   return (

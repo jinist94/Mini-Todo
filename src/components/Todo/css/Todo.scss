@@ -18,6 +18,8 @@
   }
 }
 
+// seleted-todo
+
 .selected-todo {
   background-color: $bg-rightGray;
   width: 100%;
@@ -30,7 +32,31 @@
     .todo-name {
     }
   }
+  .todo-step-box {
+    border: 1px solid $border-gray;
+    border-top: none;
+    input {
+      width: 100%;
+      border: none;
+      height: 1.8rem;
+      font-size: 0.9rem;
+      outline: none;
+    }
+    .step-list {
+      background: white;
+      .input-wrap {
+        padding: 0.5em 1em;
+      }
+    }
+    .add-step {
+      .step-form {
+        padding: 0.5em 1em;
+        background: white;
+      }
+    }
+  }
 }
+
 // todo-form
 .add-todo {
   background-color: $bg-rightGray;
