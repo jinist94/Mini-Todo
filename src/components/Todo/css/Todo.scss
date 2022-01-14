@@ -46,6 +46,23 @@
       background: white;
       .input-wrap {
         padding: 0.5em 1em;
+        display: flex;
+        input {
+          padding-left: 0.5em;
+          &.check {
+            color: $font-gray;
+            text-decoration: line-through;
+          }
+        }
+        .uncheck-icon svg {
+          width: 20px;
+        }
+        .oncheck-icon svg {
+          width: 20px;
+        }
+        .close-icon svg {
+          width: 10px;
+        }
       }
     }
     .add-step {
@@ -162,11 +179,14 @@ i {
   align-items: center;
 }
 .uncheck-icon svg {
+  width: 25px;
   fill: #3844bd;
 }
 .oncheck-icon svg {
+  width: 25px;
   fill: #3844bd;
 }
 .close-icon svg {
+  width: 15px;
   fill: $d-gray;
 }

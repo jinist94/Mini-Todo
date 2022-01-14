@@ -1,4 +1,4 @@
-import React, { useCallback } from "react";
+import React from "react";
 import StepAddForm from "./Todo/StepAddForm";
 import { addTodoStep } from "../modules/todo";
 import { useDispatch } from "react-redux";
@@ -17,22 +17,23 @@ const SelectedTodo = ({ selectedTodo }) => {
 
   const onChange = (event, index) => {
     const value = event.target.value;
-    console.log(todoData.id, value, index);
     dispatch(updateTodoStep(todoData.id, value, index));
   };
+
   return (
     <div className="selected-todo">
       <div className="todo-box">
-        <h3 className="todo-name">{selectedTodo.todoData.title}</h3>
+        <h3 className="todo-name">{todoData?.title}</h3>
       </div>
       <div className="todo-step-box">
         <div className="step-list">
-          {todoData.steps.map((step, index) => (
+          {todoData?.steps.map((step, index) => (
             <StepInput
               key={step.id}
               step={step}
               index={index}
               onChange={onChange}
+              todoId={todoData.id}
             />
           ))}
         </div>

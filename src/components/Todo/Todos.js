@@ -12,7 +12,6 @@ import TodoAddForm from "./TodoAddForm";
 const Todos = (props) => {
   const todoState = useSelector((state) => state);
   const { todos, finished, selectedTodo } = todoState;
-  console.log(todos);
 
   return (
     <div className="todo-container">
@@ -24,7 +23,7 @@ const Todos = (props) => {
       </div>
       {selectedTodo.todoData && (
         <div className="right-column">
-          <SelectedTodo selectedTodo={selectedTodo} />
+          <SelectedTodo selectedTodo={selectedTodo} todos={todos} />
         </div>
       )}
     </div>

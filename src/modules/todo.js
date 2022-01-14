@@ -10,9 +10,9 @@ const initialTodos = {
       title: "1. Todo project",
       dueDate: new Date(),
       steps: [
-        { id: 1, title: "레이아웃 만들기" },
-        { id: 2, title: "Todo form 만들기" },
-        { id: 3, title: "캘린더 만들기" },
+        { id: 1, title: "레이아웃 만들기", check: true },
+        { id: 2, title: "Todo form 만들기", check: true },
+        { id: 3, title: "캘린더 만들기", check: false },
       ],
     },
     { id: 2, title: "2. 청소하기", dueDate: _tomorrow, steps: [] },
@@ -24,7 +24,6 @@ const initialTodos = {
   selectedTodo: {
     todoData: null,
     element: null,
-    index: null,
   },
 };
 
@@ -38,9 +37,10 @@ const DELETE_FINISHED = "todo/DELETE_FINISHED";
 const UPDATE_FINISHED = "todo/UPDATE_FINISHED";
 
 const ADD_SELECTED_TODO = "todo/ADD_SELECTED_TODO";
-const ADD_TODO_STEP = "todo/ADD_TODO_STEP";
-const UPDATE_TODO_STEP = "todo/UPDATE_TODO_STEP";
-const DELETE_TODO_STEP = "todo/DELETE_TODO_STEP";
+const ADD_STEP = "todo/ADD_STEP";
+const UPDATE_STEP = "todo/UPDATE_STEP";
+const DELETE_STEP = "todo/DELETE_STEP";
+const UPDATE_STEP_CHECK = "todo/UPDATE_STEP_CHECK";
 
 // action function
 export const addTodo = (todo) => {
@@ -71,15 +71,19 @@ export const addSelectedTodo = (todo, element, index) => {
 };
 
 export const addTodoStep = (todoId, step) => {
-  return { type: ADD_TODO_STEP, data: { todoId, step } };
+  return { type: ADD_STEP, data: { todoId, step } };
 };
 
 export const updateTodoStep = (todoId, title, index) => {
-  return { type: UPDATE_TODO_STEP, data: { todoId, title, index } };
+  return { type: UPDATE_STEP, data: { todoId, title, index } };
 };
 
-export const deleteTodoStep = (step) => {
-  return { type: DELETE_TODO_STEP, data: { step } };
+export const deleteStep = (todoId, stepId) => {
+  return { type: DELETE_STEP, data: { todoId, stepId } };
+};
+
+export const updateStepCheck = (todoId, index) => {
+  return { type: UPDATE_STEP_CHECK, data: { todoId, index } };
 };
 
 const todoReducer = (state = initialTodos, action) => {
@@ -111,7 +115,7 @@ const todoReducer = (state = initialTodos, action) => {
           element: data.element,
         },
       };
-    case ADD_TODO_STEP:
+    case ADD_STEP:
       return produce(state, (draft) => {
         const todoIndex = draft.todos.findIndex(
           (todo) => todo.id === data.todoId
@@ -119,8 +123,7 @@ const todoReducer = (state = initialTodos, action) => {
         draft.todos[todoIndex].steps.push(data.step);
         draft.selectedTodo.todoData.steps.push(data.step);
       });
-    case UPDATE_TODO_STEP:
-      console.log({ ...state, steps: data.steps }, "dataSteps");
+    case UPDATE_STEP:
       return produce(state, (draft) => {
         const todoIndex = draft.todos.findIndex(
           (todo) => todo.id === data.todoId
@@ -128,8 +131,28 @@ const todoReducer = (state = initialTodos, action) => {
         draft.todos[todoIndex].steps[data.index].title = data.title;
         draft.selectedTodo.todoData.steps[data.index].title = data.title;
       });
-    case DELETE_TODO_STEP:
-      return { ...state, steps: [data.stap, ...state.staps] };
+    case DELETE_STEP:
+      return produce(state, (draft) => {
+        const todoIndex = draft.todos.findIndex(
+          (todo) => todo.id === data.todoId
+        );
+        const newSteps = draft.todos[todoIndex].steps.filter(
+          (step) => step.id !== data.stepId
+        );
+        draft.todos[todoIndex].steps = newSteps;
+        draft.selectedTodo.todoData.steps = newSteps;
+      });
+    case UPDATE_STEP_CHECK:
+      return produce(state, (draft) => {
+        const todoIndex = draft.todos.findIndex(
+          (todo) => todo.id === data.todoId
+        );
+        const isCheck = draft.todos[todoIndex].steps[data.index].check
+          ? false
+          : true;
+        draft.todos[todoIndex].steps[data.index].check = isCheck;
+        draft.selectedTodo.todoData.steps[data.index].check = isCheck;
+      });
     default:
       return state;
   }
