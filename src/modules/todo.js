@@ -37,6 +37,10 @@ const DELETE_FINISHED = "todo/DELETE_FINISHED";
 const UPDATE_FINISHED = "todo/UPDATE_FINISHED";
 
 const ADD_SELECTED_TODO = "todo/ADD_SELECTED_TODO";
+
+const UPDATE_TODO_TITLE = "todo/UPDATE_TODO_TITLE";
+const UPDATE_DUEDATE = "todo/UPDATE_DUEDATE";
+
 const ADD_STEP = "todo/ADD_STEP";
 const UPDATE_STEP = "todo/UPDATE_STEP";
 const DELETE_STEP = "todo/DELETE_STEP";
@@ -68,6 +72,14 @@ export const updateFinished = (todo) => {
 
 export const addSelectedTodo = (todo, element, index) => {
   return { type: ADD_SELECTED_TODO, data: { todoData: todo, element, index } };
+};
+
+export const updateTodoTitle = (todoId, title) => {
+  return { type: UPDATE_TODO_TITLE, data: { todoId, title } };
+};
+
+export const updateDueDate = (todoId, date) => {
+  return { type: UPDATE_DUEDATE, data: { todoId, date } };
 };
 
 export const addTodoStep = (todoId, step) => {
@@ -115,6 +127,22 @@ const todoReducer = (state = initialTodos, action) => {
           element: data.element,
         },
       };
+    case UPDATE_TODO_TITLE:
+      return produce(state, (draft) => {
+        const todoIndex = draft.todos.findIndex(
+          (todo) => todo.id === data.todoId
+        );
+        draft.todos[todoIndex].title = data.title;
+        draft.selectedTodo.todoData.title = data.title;
+      });
+    case UPDATE_DUEDATE:
+      return produce(state, (draft) => {
+        const todoIndex = draft.todos.findIndex(
+          (todo) => todo.id === data.todoId
+        );
+        draft.todos[todoIndex].dueDate = data.date;
+        draft.selectedTodo.todoData.dueDate = data.date;
+      });
     case ADD_STEP:
       return produce(state, (draft) => {
         const todoIndex = draft.todos.findIndex(

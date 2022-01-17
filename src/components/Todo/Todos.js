@@ -6,7 +6,6 @@ import Finished from "./Finished";
 import { useSelector } from "react-redux";
 
 import SelectedTodo from "../SelectedTodo";
-import Calendar from "../Calendar/Calendar";
 import TodoAddForm from "./TodoAddForm";
 
 const Todos = (props) => {

@@ -1,15 +1,12 @@
 import React, { useEffect, useState, useRef } from "react";
 import { useDispatch } from "react-redux";
 import { addTodo } from "../../modules/todo";
-import Calendar from "../Calendar/Calendar";
-import { dateConverder } from "../../lib/util/date";
+import SelectDueDate from "../SelectDueDate";
 
 const TodoAddForm = () => {
   const [todoValue, setTodoValue] = useState("");
   const [dueDate, setDueDate] = useState("");
-  const [openCalendar, setOpenCalendar] = useState(false);
   const dispatch = useDispatch();
-  const calendarRef = useRef();
 
   const onChange = (event) => {
     const { value } = event.target;
@@ -18,36 +15,17 @@ const TodoAddForm = () => {
   const onSubmit = (event) => {
     event.preventDefault();
     if (todoValue) {
-      const newTodo = { id: Date.now(), title: todoValue, dueDate };
+      const newTodo = { id: Date.now(), title: todoValue, dueDate, steps: [] };
       setTodoValue("");
       setDueDate("");
       dispatch(addTodo(newTodo));
     }
   };
-  const showCalendar = () => {
-    setOpenCalendar(true);
-  };
-  const closeCalender = () => {
-    setOpenCalendar(false);
-  };
 
-  const seleteDueDate = (date) => {
+  const updateDueDate = (date) => {
     setDueDate(date);
-    closeCalender();
   };
 
-  const handleClickOutside = ({ target }) => {
-    if (openCalendar && !calendarRef.current?.contains(target)) {
-      closeCalender();
-    }
-  };
-
-  useEffect(() => {
-    window.addEventListener("click", handleClickOutside);
-    return () => {
-      window.removeEventListener("click", handleClickOutside);
-    };
-  }, [openCalendar]);
   return (
     <div className="add-todo">
       <form className="todo-form" onSubmit={onSubmit}>
@@ -60,13 +38,7 @@ const TodoAddForm = () => {
         <button onClick={onSubmit}>추가</button>
       </form>
       <div className="due-date">
-        <button className="date" onClick={showCalendar}>
-          {!dueDate && <span>기한 설정</span>}
-          {dueDate && <span>{dateConverder(dueDate)}</span>}
-        </button>
-        {openCalendar && (
-          <Calendar ref={calendarRef} seleteDueDate={seleteDueDate} />
-        )}
+        <SelectDueDate dueDate={dueDate} updateDueDate={updateDueDate} />
       </div>
     </div>
   );

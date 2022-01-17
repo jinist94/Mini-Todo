@@ -30,6 +30,14 @@
     padding: 1em;
     border: 1px solid $border-gray;
     .todo-name {
+      input {
+        width: 100%;
+        border: none;
+        height: 1.8rem;
+        font-size: 1rem;
+        font-weight: bold;
+        outline: none;
+      }
     }
   }
   .todo-step-box {
@@ -70,6 +78,29 @@
         padding: 0.5em 1em;
         background: white;
       }
+    }
+  }
+  .todo-due-date-box {
+    background-color: white;
+    margin-top: 1em;
+    button.date {
+      padding: 1em;
+      width: 100%;
+      box-sizing: border-box;
+      border: 1px solid $border-gray;
+      span {
+        width: 100%;
+        height: 1.8rem;
+        font-size: 0.9rem;
+      }
+    }
+
+    .todo-calendar {
+      width: 100%;
+      position: static;
+      background-color: white;
+      border: 1px solid $border-gray;
+      border-top: none;
     }
   }
 }
@@ -148,17 +179,6 @@
         line-height: 1.6rem;
         // pointer-events: inherit;
       }
-      .due-date {
-        margin-top: 0.2em;
-        font-size: 0.8rem;
-        color: $font-gray;
-        &.over-due {
-          color: red;
-        }
-        &.today {
-          color: #3849f5;
-        }
-      }
     }
     &.selected {
       background-color: #789eff26;
@@ -170,6 +190,18 @@
     &.top {
       border-top: 2px solid #3844bd;
     }
+  }
+}
+
+.due-date {
+  margin-top: 0.2em;
+  font-size: 0.8rem;
+  color: $font-gray;
+  &.over-due {
+    color: $font-red;
+  }
+  &.today {
+    color: #3849f5;
   }
 }
 
