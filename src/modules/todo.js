@@ -15,15 +15,31 @@ const initialTodos = {
         { id: 3, title: "캘린더 만들기", check: false },
       ],
     },
-    { id: 2, title: "2. 청소하기", dueDate: _tomorrow, steps: [] },
-    { id: 3, title: "3. 공부하기", dueDate: new Date(2021, 11, 21), steps: [] },
-    { id: 4, title: "4. 샤워하기", dueDate: new Date(2022, 11, 21), steps: [] },
+    {
+      id: 2,
+      title: "2. 청소하기",
+      dueDate: _tomorrow,
+      steps: [],
+    },
+    {
+      id: 3,
+      title: "3. 공부하기",
+      dueDate: new Date(2021, 11, 21),
+      steps: [],
+    },
+    {
+      id: 4,
+      title: "4. 샤워하기",
+      dueDate: new Date(2022, 11, 21),
+      steps: [],
+    },
     { id: 5, title: "5. 독서하기", dueDate: "", steps: [] },
   ],
   finished: [],
   selectedTodo: {
     todoData: null,
     element: null,
+    type: null,
   },
 };
 
@@ -70,24 +86,24 @@ export const updateFinished = (todo) => {
   return { type: UPDATE_FINISHED, data: { todo } };
 };
 
-export const addSelectedTodo = (todo, element, index) => {
-  return { type: ADD_SELECTED_TODO, data: { todoData: todo, element, index } };
+export const addSelectedTodo = (todo, element, type) => {
+  return { type: ADD_SELECTED_TODO, data: { todoData: todo, element, type } };
 };
 
-export const updateTodoTitle = (todoId, title) => {
-  return { type: UPDATE_TODO_TITLE, data: { todoId, title } };
+export const updateTitle = (todoId, title, type) => {
+  return { type: UPDATE_TODO_TITLE, data: { todoId, title, type } };
 };
 
-export const updateDueDate = (todoId, date) => {
-  return { type: UPDATE_DUEDATE, data: { todoId, date } };
+export const updateDueDate = (todoId, date, type) => {
+  return { type: UPDATE_DUEDATE, data: { todoId, date, type } };
 };
 
-export const addTodoStep = (todoId, step) => {
-  return { type: ADD_STEP, data: { todoId, step } };
+export const addStep = (todoId, step, type) => {
+  return { type: ADD_STEP, data: { todoId, step, type } };
 };
 
-export const updateTodoStep = (todoId, title, index) => {
-  return { type: UPDATE_STEP, data: { todoId, title, index } };
+export const updateStep = (todoId, title, index, type) => {
+  return { type: UPDATE_STEP, data: { todoId, title, index, type } };
 };
 
 export const deleteStep = (todoId, stepId) => {
@@ -125,38 +141,39 @@ const todoReducer = (state = initialTodos, action) => {
         selectedTodo: {
           todoData: data.todoData,
           element: data.element,
+          type: data.type,
         },
       };
     case UPDATE_TODO_TITLE:
       return produce(state, (draft) => {
-        const todoIndex = draft.todos.findIndex(
+        const todoIndex = draft[data.type].findIndex(
           (todo) => todo.id === data.todoId
         );
-        draft.todos[todoIndex].title = data.title;
+        draft[data.type][todoIndex].title = data.title;
         draft.selectedTodo.todoData.title = data.title;
       });
     case UPDATE_DUEDATE:
       return produce(state, (draft) => {
-        const todoIndex = draft.todos.findIndex(
+        const todoIndex = draft[data.type].findIndex(
           (todo) => todo.id === data.todoId
         );
-        draft.todos[todoIndex].dueDate = data.date;
+        draft[data.type][todoIndex].dueDate = data.date;
         draft.selectedTodo.todoData.dueDate = data.date;
       });
     case ADD_STEP:
       return produce(state, (draft) => {
-        const todoIndex = draft.todos.findIndex(
+        const todoIndex = draft[data.type].findIndex(
           (todo) => todo.id === data.todoId
         );
-        draft.todos[todoIndex].steps.push(data.step);
+        draft[data.type][todoIndex].steps.push(data.step);
         draft.selectedTodo.todoData.steps.push(data.step);
       });
     case UPDATE_STEP:
       return produce(state, (draft) => {
-        const todoIndex = draft.todos.findIndex(
+        const todoIndex = draft[data.type].findIndex(
           (todo) => todo.id === data.todoId
         );
-        draft.todos[todoIndex].steps[data.index].title = data.title;
+        draft[data.type][todoIndex].steps[data.index].title = data.title;
         draft.selectedTodo.todoData.steps[data.index].title = data.title;
       });
     case DELETE_STEP:

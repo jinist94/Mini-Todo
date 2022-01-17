@@ -40,4 +40,4 @@ const CheckBtn = ({ onClick, isCheck }) => {
   }
 };
 
-export default CheckBtn;
+export default React.memo(CheckBtn);

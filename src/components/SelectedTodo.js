@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import {
-  addTodoStep,
-  updateTodoTitle,
-  updateTodoStep,
+  addStep,
+  updateTitle,
+  updateStep,
   updateDueDate,
 } from "../modules/todo";
 
@@ -12,7 +12,7 @@ import StepInput from "./StepInput";
 import SelectDueDate from "./SelectDueDate";
 
 const SelectedTodo = ({ selectedTodo }) => {
-  const { todoData, element } = selectedTodo;
+  const { todoData, elementm, type } = selectedTodo;
   const [titleValue, setTitleValue] = useState(todoData.title);
   const [dueDate, setDueDate] = useState("");
 
@@ -21,12 +21,12 @@ const SelectedTodo = ({ selectedTodo }) => {
   const onSubmit = (inputValue) => {
     const stepId = Date.now();
     const newStep = { id: stepId, title: inputValue };
-    dispatch(addTodoStep(todoData.id, newStep));
+    dispatch(addStep(todoData.id, newStep, type));
   };
 
   const onChange = (event, index) => {
     const value = event.target.value;
-    dispatch(updateTodoStep(todoData.id, value, index));
+    dispatch(updateStep(todoData.id, value, index, type));
   };
 
   const onKeyDown = (event) => {
@@ -35,7 +35,6 @@ const SelectedTodo = ({ selectedTodo }) => {
         setTitleValue(todoData.title);
         return;
       }
-      dispatch(updateTodoTitle(todoData.id, titleValue));
       event.target.blur();
     }
   };
@@ -48,13 +47,12 @@ const SelectedTodo = ({ selectedTodo }) => {
       setTitleValue(todoData.title);
       return;
     }
-    dispatch(updateTodoTitle(todoData.id, titleValue));
+    dispatch(updateTitle(todoData.id, titleValue, type));
   };
 
   const ChangeDueDate = (date) => {
     setDueDate(date);
-    console.log(date);
-    dispatch(updateDueDate(todoData.id, date));
+    dispatch(updateDueDate(todoData.id, date, type));
   };
 
   useEffect(() => {

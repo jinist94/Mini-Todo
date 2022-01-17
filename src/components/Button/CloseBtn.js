@@ -19,4 +19,4 @@ const CloseBtn = ({ onClick }) => {
   );
 };
 
-export default CloseBtn;
+export default React.memo(CloseBtn);

@@ -36,4 +36,4 @@ const DueDateText = ({ dueDate }) => {
   );
 };
 
-export default DueDateText;
+export default React.memo(DueDateText);

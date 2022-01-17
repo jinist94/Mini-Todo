@@ -24,7 +24,7 @@ const Progress = ({ todos }) => {
             todo={todo}
             todos={todos}
             index={index}
-            type="todo"
+            type="todos"
             onDragStart={onDragStart}
             onDragOver={onDragOver}
             onDragEnter={onDragEnter}

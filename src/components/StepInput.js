@@ -1,19 +1,18 @@
-import React from "react";
+import React, { useCallback } from "react";
 import CheckBtn from "./Button/CheckBtn";
 import CloseBtn from "./Button/CloseBtn";
 import { deleteStep, updateStepCheck } from "../modules/todo";
 import { useDispatch } from "react-redux";
-import { useState } from "react/cjs/react.development";
 
 const StepInput = ({ step, onChange, index, todoId }) => {
   const dispatch = useDispatch();
 
-  const onClickCheck = (event) => {
+  const onClickCheck = useCallback((event) => {
     dispatch(updateStepCheck(todoId, index));
-  };
-  const onClickClose = () => {
+  }, []);
+  const onClickClose = useCallback(() => {
     dispatch(deleteStep(todoId, step.id));
-  };
+  }, []);
   return (
     <div className="input-wrap">
       <CheckBtn onClick={onClickCheck} isCheck={step.check} />

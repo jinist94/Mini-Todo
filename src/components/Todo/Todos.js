@@ -18,7 +18,6 @@ const Todos = (props) => {
         <TodoAddForm />
         <Progress todos={todos} />
         <Finished finished={finished} />
-        {/* <Calendar /> */}
       </div>
       {selectedTodo.todoData && (
         <div className="right-column">
