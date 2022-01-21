@@ -14,26 +14,30 @@ const initialTodos = {
         { id: 2, title: "Todo form 만들기", check: true },
         { id: 3, title: "캘린더 만들기", check: false },
       ],
+      note: "안녕하세요",
     },
     {
       id: 2,
       title: "2. 청소하기",
       dueDate: _tomorrow,
       steps: [],
+      note: "",
     },
     {
       id: 3,
       title: "3. 공부하기",
       dueDate: new Date(2021, 11, 21),
       steps: [],
+      note: "",
     },
     {
       id: 4,
       title: "4. 샤워하기",
       dueDate: new Date(2022, 11, 21),
       steps: [],
+      note: "",
     },
-    { id: 5, title: "5. 독서하기", dueDate: "", steps: [] },
+    { id: 5, title: "5. 독서하기", dueDate: "", steps: [], note: "" },
   ],
   finished: [],
   selectedTodo: {
@@ -61,6 +65,7 @@ const ADD_STEP = "todo/ADD_STEP";
 const UPDATE_STEP = "todo/UPDATE_STEP";
 const DELETE_STEP = "todo/DELETE_STEP";
 const UPDATE_STEP_CHECK = "todo/UPDATE_STEP_CHECK";
+const UPDATE_NOTE = "todo/UPDATE_NOTE";
 
 // action function
 export const addTodo = (todo) => {
@@ -112,6 +117,10 @@ export const deleteStep = (todoId, stepId) => {
 
 export const updateStepCheck = (todoId, index) => {
   return { type: UPDATE_STEP_CHECK, data: { todoId, index } };
+};
+
+export const updateNote = (todoId, text) => {
+  return { type: UPDATE_NOTE, data: { todoId, text } };
 };
 
 const todoReducer = (state = initialTodos, action) => {
@@ -197,6 +206,15 @@ const todoReducer = (state = initialTodos, action) => {
           : true;
         draft.todos[todoIndex].steps[data.index].check = isCheck;
         draft.selectedTodo.todoData.steps[data.index].check = isCheck;
+      });
+    case UPDATE_NOTE:
+      return produce(state, (draft) => {
+        const todoIndex = draft.todos.findIndex(
+          (todo) => todo.id === data.todoId
+        );
+
+        draft.todos[todoIndex].note = data.text;
+        draft.selectedTodo.todoData.note = data.text;
       });
     default:
       return state;

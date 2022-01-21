@@ -10,6 +10,7 @@ import {
 import StepAddForm from "./Todo/StepAddForm";
 import StepInput from "./StepInput";
 import SelectDueDate from "./SelectDueDate";
+import DetailNote from "./DetailNote";
 
 const SelectedTodo = ({ selectedTodo }) => {
   const { todoData, elementm, type } = selectedTodo;
@@ -90,6 +91,9 @@ const SelectedTodo = ({ selectedTodo }) => {
       </div>
       <div className="todo-due-date-box">
         <SelectDueDate ChangeDueDate={ChangeDueDate} dueDate={dueDate} />
+      </div>
+      <div className="todo-note">
+        <DetailNote todoId={todoData.id} note={todoData.note} />
       </div>
     </div>
   );

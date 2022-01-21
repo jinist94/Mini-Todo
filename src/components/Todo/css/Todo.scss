@@ -205,6 +205,30 @@
   }
 }
 
+.todo-note {
+  margin-top: 1em;
+}
+.datail-note {
+  border: 1px solid $border-gray;
+  background: white;
+  padding: 1em;
+  box-sizing: border-box;
+  &.edit {
+    border: 1px solid #000;
+  }
+  textarea {
+    display: block;
+    resize: none;
+    overflow: hidden;
+    border: 0;
+    width: 100%;
+    line-height: 1.5;
+    &:focus {
+      outline: none;
+    }
+  }
+}
+
 /* icon */
 i {
   display: flex;
