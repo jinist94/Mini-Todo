@@ -1,11 +1,15 @@
 import "./App.scss";
+import Header from "./components/Header/Header";
 import Todos from "./components/Todo/Todos";
 
 function App() {
   return (
-    <div className="container">
-      <Todos />
-    </div>
+    <>
+      <Header />
+      <div className="container">
+        <Todos />
+      </div>
+    </>
   );
 }
 
