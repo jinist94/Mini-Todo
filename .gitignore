@@ -8,6 +8,13 @@
 # testing
 /coverage
 
+README.md
+
+# drag and drop test 
+src/components/DragAndDrop.js
+src/components/Todo/css/DragAndDrop.css
+src/components/DragAndDrop.js
+
 # production
 /build
 
