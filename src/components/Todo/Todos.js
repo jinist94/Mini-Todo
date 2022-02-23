@@ -9,7 +9,7 @@ import SelectedTodo from "../SelectedTodo";
 import TodoAddForm from "./TodoAddForm";
 
 const Todos = (props) => {
-  const todoState = useSelector((state) => state);
+  const todoState = useSelector((state) => state.todoReducer);
   const { todos, finished, selectedTodo } = todoState;
 
   return (

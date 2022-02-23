@@ -5,6 +5,10 @@ header {
   justify-content: space-between;
   padding: 1em;
   border-bottom: 1px solid $border-gray;
+  .profile {
+    display: flex;
+    align-items: center;
+  }
   .profile img {
     width: 35px;
     border-radius: 50%;

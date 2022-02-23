@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import "./Header.scss";
 
 const Header = (props) => {
@@ -11,6 +12,9 @@ const Header = (props) => {
       </div>
       <div className="right-menu">
         <div className="profile">
+          <Link to="/join" className="join-btn">
+            Join
+          </Link>
           <img src={profileImg} alt="profile" />
         </div>
       </div>
