@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from "react";
 
 import { useDispatch, useSelector } from "react-redux";
-import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
+import { useHistory } from "react-router-dom";
 import { registerInitiate } from "../../modules/user";
 
 const Join = (props) => {
-  const [errorMsg, setErrorMsg] = useState("");
   const [joinForm, setJoinForm] = useState({
     displayName: "",
     email: "",
@@ -13,12 +12,12 @@ const Join = (props) => {
     passwordConfirm: "",
   });
   const { displayName, email, password, passwordConfirm } = joinForm;
-  const { currentUser } = useSelector((state) => state.userReducer);
+  const { currentUser, error } = useSelector((state) => state.userReducer);
   const dispatch = useDispatch();
   const history = useHistory();
 
   useEffect(() => {
-    console.log(currentUser, "[currentUser]");
+    console.log(currentUser, "[Join - currentUser]");
     if (currentUser) {
       history.push("/");
     }
@@ -75,7 +74,7 @@ const Join = (props) => {
         />
         <input type="submit" />
       </form>
-      <p className="error-message">{errorMsg}</p>
+      <p className="error-message">{error.message}</p>
     </div>
   );
 };

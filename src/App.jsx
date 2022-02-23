@@ -3,6 +3,7 @@ import Header from "./components/Header/Header";
 import Todos from "./components/Todo/Todos";
 import { BrowserRouter, Route, Link, Switch } from "react-router-dom";
 import Join from "./components/Join/Join";
+import Login from "./components/Login/Login";
 import "./lib/firebase/firebase";
 import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
@@ -33,6 +34,7 @@ function App() {
         <div className="container">
           <Route path="/" render={() => <Todos />} exact />
           <Route path="/join" render={() => <Join />} />
+          <Route path="/login" render={() => <Login />} />
         </div>
       </BrowserRouter>
     </>
