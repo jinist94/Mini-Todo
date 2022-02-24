@@ -1,7 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
-import { loginInitiate } from "../../modules/user";
+import {
+  githubLoginInitiate,
+  googleLoginInitiate,
+  loginInitiate,
+} from "../../modules/user";
 
 const Login = () => {
   const [loginForm, setLoginForm] = useState({
@@ -24,6 +28,13 @@ const Login = () => {
     setLoginForm({ ...loginForm, [name]: value });
   };
 
+  const handleGoogleLogin = () => {
+    dispatch(googleLoginInitiate());
+  };
+  const handleGithubLogin = () => {
+    dispatch(githubLoginInitiate());
+  };
+
   useEffect(() => {
     console.log(currentUser, "[Login - currentUser]");
     if (currentUser) {
@@ -40,6 +51,10 @@ const Login = () => {
         <input type="submit" />
       </form>
       <p className="error-message">{error?.message}</p>
+      <div className="sns-login">
+        <button onClick={handleGoogleLogin}>Google Login</button>
+        <button onClick={handleGithubLogin}>Github Login</button>
+      </div>
     </div>
   );
 };

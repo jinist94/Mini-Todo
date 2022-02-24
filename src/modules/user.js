@@ -4,7 +4,10 @@ import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
   signOut,
+  signInWithPopup,
 } from "firebase/auth";
+
+import { googleProvider, githubProvider } from "../lib/firebase/firebase";
 
 const REGISTER_START = "REGISTER_START";
 const REGISTER_SUCCESS = "REGISTER_SUCCESS";
@@ -19,6 +22,14 @@ const LOGIN_FAIL = "LOGIN_FAIL";
 const LOGOUT_START = "LOGOUT_START";
 const LOGOUT_SUCCESS = "LOGOUT_SUCCESS";
 const LOGOUT_FAIL = "LOGOUT_FAIL";
+
+const GOOGLE_LOGIN_START = "GOOGLE_LOGIN_START";
+const GOOGLE_LOGIN_SUCCESS = "GOOGLE_LOGIN_SUCCESS";
+const GOOGLE_LOGIN_FAIL = "GOOGLE_LOGIN_FAIL";
+
+const GITHUB_LOGIN_START = "GITHUB_LOGIN_START";
+const GITHUB_LOGIN_SUCCESS = "GITHUB_LOGIN_SUCCESS";
+const GITHUB_LOGIN_FAIL = "GITHUB_LOGIN_FAIL";
 
 export const setUser = (user) => ({
   type: SET_USER,
@@ -49,6 +60,30 @@ const loginSuccess = (user) => ({
 
 const loginFail = (error) => ({
   type: LOGIN_FAIL,
+  payload: error,
+});
+
+const googleLoginStart = () => ({
+  type: GOOGLE_LOGIN_START,
+});
+const googleLoginSuccess = (user) => ({
+  type: GOOGLE_LOGIN_SUCCESS,
+  payload: user,
+});
+const googleLoginFail = (error) => ({
+  type: GOOGLE_LOGIN_FAIL,
+  payload: error,
+});
+
+const githubLoginStart = () => ({
+  type: GITHUB_LOGIN_START,
+});
+const githubLoginSuccess = (user) => ({
+  type: GITHUB_LOGIN_SUCCESS,
+  payload: user,
+});
+const githubLoginFail = (error) => ({
+  type: GITHUB_LOGIN_FAIL,
   payload: error,
 });
 
@@ -116,6 +151,42 @@ export const logoutInitiate = () => {
       dispatch(logoutSuccess());
     } catch (error) {
       dispatch(logoutFail(error));
+      console.log(error.code, "error code");
+      console.log(error.message, "errorMessage");
+    }
+  };
+};
+
+export const googleLoginInitiate = () => {
+  return async function (dispatch) {
+    dispatch(googleLoginStart());
+    try {
+      const auth = getAuth();
+      const user = await signInWithPopup(auth, googleProvider);
+      dispatch(googleLoginSuccess(user));
+    } catch (error) {
+      dispatch(googleLoginFail(error));
+      console.log(error.code, "error code");
+      console.log(error.message, "errorMessage");
+    }
+  };
+};
+
+export const githubLoginInitiate = () => {
+  return async function (dispatch) {
+    dispatch(githubLoginStart());
+    try {
+      const auth = getAuth();
+      const userCredential = await signInWithPopup(auth, githubProvider);
+      console.log(userCredential);
+      if (!userCredential.displayName) {
+        await updateProfile(auth.currentUser, {
+          displayName: userCredential.user.reloadUserInfo.screenName,
+        });
+      }
+      dispatch(githubLoginSuccess(userCredential.user));
+    } catch (error) {
+      dispatch(githubLoginFail(error));
       console.log(error.code, "error code");
       console.log(error.message, "errorMessage");
     }
