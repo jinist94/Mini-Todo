@@ -1,12 +1,19 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { logoutInitiate } from "../../modules/user";
 
-const ProfileModal = ({ displayName, profileImg }) => {
+const ProfileModal = ({ displayName, profileImg, handleCloseModal }) => {
   const dispatch = useDispatch();
   const onLogout = () => {
     dispatch(logoutInitiate());
   };
+  useEffect(() => {
+    window.addEventListener("mousedown", handleCloseModal);
+    return () => {
+      window.removeEventListener("mousedown", handleCloseModal);
+    };
+  }, []);
+
   return (
     <div className="profile-modal">
       <div className="profile-wrapper">

@@ -1,32 +1,20 @@
-import React, { useEffect, useRef } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import React from "react";
+import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import "./Header.scss";
-import { logoutInitiate } from "../../modules/user";
 import ProfileModal from "./ProfileModal";
-import { useState } from "react/cjs/react.development";
+
+import { useModal } from "../../lib/custom/useModal";
 
 const Header = (props) => {
   const { currentUser } = useSelector((state) => state.userReducer);
   const profileImg = currentUser?.photoURL || "images/profile-img.jpg";
   const displayName = currentUser?.displayName || "";
-  const [profileModal, setProfileModal] = useState(false);
+  const { modalState, handleShowModal, handleCloseModal, modalRef } =
+    useModal();
   const onClickProfile = () => {
-    setProfileModal(!profileModal);
+    handleShowModal();
   };
-  const modalRef = useRef();
-
-  const handleCloseModal = (e) => {
-    if (profileModal && !modalRef.current.contains(e.target)) {
-      setProfileModal(false);
-    }
-  };
-  useEffect(() => {
-    window.addEventListener("mousedown", handleCloseModal);
-    return () => {
-      window.removeEventListener("mousedown", handleCloseModal);
-    };
-  }, [profileModal]);
 
   return (
     <header>
@@ -51,9 +39,13 @@ const Header = (props) => {
             </div>
           )}
         </div>
-        {profileModal && (
+        {currentUser && modalState && (
           <div ref={modalRef}>
-            <ProfileModal displayName={displayName} profileImg={profileImg} />
+            <ProfileModal
+              displayName={displayName}
+              profileImg={profileImg}
+              handleCloseModal={handleCloseModal}
+            />
           </div>
         )}
       </div>
