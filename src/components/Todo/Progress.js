@@ -27,7 +27,6 @@ const Progress = ({ todos }) => {
             type="todos"
             onDragStart={onDragStart}
             onDragOver={onDragOver}
-            onDragEnter={onDragEnter}
             onDragLeave={onDragLeave}
             onDrop={onDrop}
             onDragEnd={onDragEnd}

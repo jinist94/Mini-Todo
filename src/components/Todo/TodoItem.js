@@ -20,13 +20,11 @@ const TodoItem = ({
   index,
   onDragStart,
   onDragOver,
-  onDragEnter,
   onDragLeave,
   onDrop,
-  onClick,
   onDragEnd,
 }) => {
-  const selectedTodo = useSelector((state) => state.selectedTodo);
+  const { selectedTodo } = useSelector((state) => state.todoReducer);
   const dispatch = useDispatch();
   const handleDelete = useCallback(() => {
     if (type === "todos") dispatch(deleteTodo(todo.id));
@@ -51,14 +49,14 @@ const TodoItem = ({
   const handleDragOver = (event) => {
     onDragOver(event);
   };
-  const handleDragEnter = (event) => {
-    onDragEnter(event);
-  };
   const handleDragLeave = (event) => {
     onDragLeave(event);
   };
   const handleDrop = (event) => {
     const update = onDrop(event);
+    if (!update) {
+      return;
+    }
 
     if (type === "todos") {
       dispatch(updateTodo(update));
@@ -90,7 +88,6 @@ const TodoItem = ({
       data-index={index}
       onDragStart={handleDragStart}
       onDragOver={handleDragOver}
-      onDragEnter={handleDragEnter}
       onDragLeave={handleDragLeave}
       onDrop={handleDrop}
       onDragEnd={handleDropEnd}
