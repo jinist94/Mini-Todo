@@ -27,13 +27,13 @@ const TodoItem = ({
   const { selectedTodo } = useSelector((state) => state.todoReducer);
   const dispatch = useDispatch();
   const handleDelete = useCallback(() => {
-    if (type === "todos") dispatch(deleteTodo(todo.id));
+    if (type === "todo") dispatch(deleteTodo(todo.id));
     if (type === "finished") dispatch(deleteFinished(todo.id));
   }, []);
 
   const handleClickChekck = useCallback((event) => {
     event.stopPropagation();
-    if (type === "todos") {
+    if (type === "todo") {
       dispatch(deleteTodo(todo.id));
       dispatch(addFinished(todo));
     }
@@ -58,7 +58,7 @@ const TodoItem = ({
       return;
     }
 
-    if (type === "todos") {
+    if (type === "todo") {
       dispatch(updateTodo(update));
     }
 
@@ -97,7 +97,7 @@ const TodoItem = ({
       <div className="left">
         <CheckBtn
           onClick={handleClickChekck}
-          isCheck={type === "todos" ? false : true}
+          isCheck={type === "todo" ? false : true}
         />
         <div className="simple-info">
           <span className="todo-name">{todo.title}</span>
