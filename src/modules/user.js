@@ -198,15 +198,21 @@ const userReducer = (state = initialState, action) => {
     case REGISTER_START:
     case LOGIN_START:
     case LOGOUT_START:
+    case GOOGLE_LOGIN_START:
+    case GITHUB_LOGIN_START:
       return { ...state, loading: true };
     case REGISTER_SUCCESS:
     case LOGIN_SUCCESS:
+    case GOOGLE_LOGIN_SUCCESS:
+    case GITHUB_LOGIN_SUCCESS:
       return { ...state, loading: false, currentUser: action.payload };
-    case LOGIN_SUCCESS:
+    case LOGOUT_SUCCESS:
       return { ...state, loading: false, currentUser: null };
     case REGISTER_FAIL:
     case LOGIN_FAIL:
     case LOGOUT_FAIL:
+    case GOOGLE_LOGIN_FAIL:
+    case GITHUB_LOGIN_FAIL:
       return { ...state, error: action.payload };
     case SET_USER:
       return { ...state, loading: false, currentUser: action.payload };
