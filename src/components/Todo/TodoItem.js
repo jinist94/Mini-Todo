@@ -13,6 +13,7 @@ import {
   addSelectedTodo,
 } from "../../modules/todo";
 import DueDateText from "./DueDateText";
+import { removeTodo } from "../../lib/firebase/todosData";
 
 const TodoItem = ({
   todo,
@@ -25,9 +26,13 @@ const TodoItem = ({
   onDragEnd,
 }) => {
   const { selectedTodo } = useSelector((state) => state.todoReducer);
+  const { currentUser } = useSelector((state) => state.userReducer);
   const dispatch = useDispatch();
   const handleDelete = useCallback(() => {
-    if (type === "todo") dispatch(deleteTodo(todo.id));
+    if (type === "todo") {
+      dispatch(deleteTodo(todo.id));
+      removeTodo(currentUser.uid, todo.id);
+    }
     if (type === "finished") dispatch(deleteFinished(todo.id));
   }, []);
 
