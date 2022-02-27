@@ -8,14 +8,15 @@ import TodoList from "./TodoList";
 import SelectedTodo from "../SelectedTodo";
 
 const Todos = (props) => {
-  const todoState = useSelector((state) => state.todoReducer);
-  const { todos, finished, selectedTodo } = todoState;
+  const { todos, finished, selectedTodo } = useSelector(
+    (state) => state.todoReducer
+  );
 
   return (
     <div className="todo-container">
       <div className="content">
         <TodoAddForm />
-        <TodoList todos={todos} type="todo" />
+        <TodoList todos={todos} type="todos" />
         <div className="finished">
           <h3>완료된 할 일</h3>
           <TodoList todos={finished} type="finished" title="완료된 할 일" />
@@ -23,7 +24,7 @@ const Todos = (props) => {
       </div>
       {selectedTodo.todoData && (
         <div className="right-column">
-          <SelectedTodo selectedTodo={selectedTodo} todos={todos} />
+          <SelectedTodo selectedTodo={selectedTodo} />
         </div>
       )}
     </div>

@@ -1,14 +1,15 @@
 import React from "react";
 import { useDispatch } from "react-redux";
 import { updateNote } from "../modules/todo";
+import { onUpdateNote } from "../lib/firebase/todosData";
 
 const DetailNote = ({ todoId, note }) => {
   const dispatch = useDispatch();
   const onChange = ({ target }) => {
-    console.log(target.clientHeight, target.scrollHeight);
     target.style.height = "auto";
     target.style.height = target.scrollHeight + "px";
     dispatch(updateNote(todoId, target.value));
+    onUpdateNote(todoId, target.value);
   };
   const onFocus = ({ target }) => {
     target.parentNode.classList.add("edit");

@@ -11,22 +11,30 @@ import StepAddForm from "./Todo/StepAddForm";
 import StepInput from "./StepInput";
 import SelectDueDate from "./SelectDueDate";
 import DetailNote from "./DetailNote";
+import {
+  onAddStep,
+  onUpdateStep,
+  onUpdateDueDate,
+} from "../lib/firebase/todosData";
+import { dateForData } from "../lib/util/date";
 
-const SelectedTodo = ({ selectedTodo }) => {
+const SelectedTodo = ({ selectedTodo, test }) => {
   const { todoData, elementm, type } = selectedTodo;
   const [titleValue, setTitleValue] = useState(todoData.title);
-  const [dueDate, setDueDate] = useState("");
 
   const dispatch = useDispatch();
 
   const onSubmit = (inputValue) => {
     const stepId = Date.now();
-    const newStep = { id: stepId, title: inputValue };
+    const newStep = { id: stepId, title: inputValue, check: false };
+
+    onAddStep(todoData.id, newStep, type);
     dispatch(addStep(todoData.id, newStep, type));
   };
 
   const onChange = (event, index) => {
     const value = event.target.value;
+    onUpdateStep(todoData.id, value, index, type);
     dispatch(updateStep(todoData.id, value, index, type));
   };
 
@@ -51,20 +59,20 @@ const SelectedTodo = ({ selectedTodo }) => {
     dispatch(updateTitle(todoData.id, titleValue, type));
   };
 
-  const ChangeDueDate = (date) => {
-    setDueDate(date);
-    dispatch(updateDueDate(todoData.id, date, type));
+  const onSelectDueDate = (date) => {
+    const convertedDate = dateForData(date);
+    onUpdateDueDate(todoData.id, convertedDate, type);
+    dispatch(updateDueDate(todoData.id, convertedDate, type));
   };
 
   useEffect(() => {
     setTitleValue(todoData.title);
-    setDueDate(todoData.dueDate);
   }, [todoData]);
 
   return (
     <div className="selected-todo">
-      <div className="todo-box">
-        <h3 className="todo-name">
+      <div className="selected-todo__todo-box selected-todo__item">
+        <h3 className="todo-box__name">
           <input
             value={titleValue}
             onChange={onTitleChange}
@@ -73,27 +81,36 @@ const SelectedTodo = ({ selectedTodo }) => {
           />
         </h3>
       </div>
-      <div className="todo-step-box">
-        <div className="step-list">
-          {todoData?.steps.map((step, index) => (
-            <StepInput
-              key={step.id}
-              step={step}
-              index={index}
-              onChange={onChange}
-              todoId={todoData.id}
-            />
-          ))}
+      <div className="selected-todo__step-box selected-todo__item">
+        <div className="step-box__list">
+          {todoData.steps &&
+            todoData.steps.map((step, index) => (
+              <StepInput
+                key={step.id}
+                step={step}
+                index={index}
+                onChange={onChange}
+                todoId={todoData.id}
+              />
+            ))}
         </div>
-        <div className="add-step">
+        <div className="selected-todo__add-step">
           <StepAddForm onSubmit={onSubmit} />
         </div>
       </div>
-      <div className="todo-due-date-box">
-        <SelectDueDate ChangeDueDate={ChangeDueDate} dueDate={dueDate} />
+      <div className="selected-todo__due-date-box selected-todo__item">
+        <SelectDueDate
+          onSelectDueDate={onSelectDueDate}
+          dueDate={todoData.dueDate}
+        />
       </div>
-      <div className="todo-note">
+      <div className="selected-todo__note selected-todo__item">
         <DetailNote todoId={todoData.id} note={todoData.note} />
+      </div>
+      <div>
+        <p>{test?.dueDate}</p>
+        <p>{test?.note}</p>
+        <p></p>
       </div>
     </div>
   );

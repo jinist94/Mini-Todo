@@ -3,17 +3,16 @@ import { useDispatch, useSelector } from "react-redux";
 import CloseBtn from "../Button/CloseBtn";
 import CheckBtn from "../Button/CheckBtn";
 
-import {
-  addTodo,
-  deleteTodo,
-  updateTodo,
-  deleteFinished,
-  addFinished,
-  updateFinished,
-  addSelectedTodo,
-} from "../../modules/todo";
+import { addSelectedTodo } from "../../modules/todo";
 import DueDateText from "./DueDateText";
-import { removeTodo } from "../../lib/firebase/todosData";
+import {
+  onAddTodo,
+  onRemoveTodo,
+  onUpdateTodos,
+  onAddFinished,
+  onRemoveFinished,
+  onUpdateFinished,
+} from "../../lib/firebase/todosData";
 
 const TodoItem = ({
   todo,
@@ -26,25 +25,23 @@ const TodoItem = ({
   onDragEnd,
 }) => {
   const { selectedTodo } = useSelector((state) => state.todoReducer);
-  const { currentUser } = useSelector((state) => state.userReducer);
   const dispatch = useDispatch();
   const handleDelete = useCallback(() => {
-    if (type === "todo") {
-      dispatch(deleteTodo(todo.id));
-      removeTodo(currentUser.uid, todo.id);
+    if (type === "todos") {
+      onRemoveTodo(todo.id);
     }
-    if (type === "finished") dispatch(deleteFinished(todo.id));
+    if (type === "finished") onRemoveFinished(todo.id);
   }, []);
 
   const handleClickChekck = useCallback((event) => {
     event.stopPropagation();
-    if (type === "todo") {
-      dispatch(deleteTodo(todo.id));
-      dispatch(addFinished(todo));
+    if (type === "todos") {
+      onAddFinished(todo);
+      onRemoveTodo(todo.id);
     }
     if (type === "finished") {
-      dispatch(deleteFinished(todo.id));
-      dispatch(addTodo(todo));
+      onAddTodo(todo);
+      onRemoveFinished(todo.id);
     }
   }, []);
 
@@ -63,12 +60,12 @@ const TodoItem = ({
       return;
     }
 
-    if (type === "todo") {
-      dispatch(updateTodo(update));
+    if (type === "todos") {
+      onUpdateTodos(update);
     }
 
     if (type === "finished") {
-      dispatch(updateFinished(update));
+      onUpdateFinished(update);
     }
   };
   const handleDropEnd = (event) => {
@@ -102,7 +99,7 @@ const TodoItem = ({
       <div className="left">
         <CheckBtn
           onClick={handleClickChekck}
-          isCheck={type === "todo" ? false : true}
+          isCheck={type === "todos" ? false : true}
         />
         <div className="simple-info">
           <span className="todo-name">{todo.title}</span>

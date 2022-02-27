@@ -1,7 +1,7 @@
 import "./App.scss";
 import Header from "./components/Header/Header";
 import Todos from "./components/Todo/Todos";
-import { BrowserRouter, Route, Link, Switch } from "react-router-dom";
+import { BrowserRouter, Route, Switch } from "react-router-dom";
 import Join from "./components/Join/Join";
 import Login from "./components/Login/Login";
 import "./lib/firebase/firebase";
@@ -10,6 +10,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { setUser } from "./modules/user";
 import { asyncTodo } from "./lib/firebase/todosData";
+import { updateFinished, updateTodo } from "./modules/todo";
 
 function App() {
   const { currentUser } = useSelector((state) => state.userReducer);
@@ -18,7 +19,13 @@ function App() {
   useEffect(() => {
     if (!currentUser) return;
     const asyncOff = asyncTodo(currentUser.uid, (data) => {
-      console.log(data, "스냅샷 콜백 데이터");
+      console.log(data.todos, "스냅샷 콜백 데이터");
+      const getData = {
+        todos: data.todos || [],
+        finished: data.finished || [],
+      };
+      dispatch(updateTodo(getData.todos));
+      dispatch(updateFinished(getData.finished));
     });
     return () => asyncOff();
   }, [currentUser]);
@@ -42,9 +49,11 @@ function App() {
       <BrowserRouter>
         <Header />
         <div className="container">
-          <Route path="/" render={() => <Todos />} exact />
-          <Route path="/join" render={() => <Join />} />
-          <Route path="/login" render={() => <Login />} />
+          <Switch>
+            <Route path="/" render={() => <Todos />} exact />
+            <Route path="/join" render={() => <Join />} />
+            <Route path="/login" render={() => <Login />} />
+          </Switch>
         </div>
       </BrowserRouter>
     </>

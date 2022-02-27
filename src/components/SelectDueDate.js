@@ -1,9 +1,8 @@
 import React, { useEffect, useState, useRef } from "react";
 import Calendar from "./Calendar/Calendar";
-import { dateConverder } from "../lib/util/date";
 import DueDateText from "./Todo/DueDateText";
 
-const SelectDueDate = ({ dueDate, ChangeDueDate }) => {
+const SelectDueDate = ({ dueDate, onSelectDueDate }) => {
   const calendarRef = useRef();
   const [openCalendar, setOpenCalendar] = useState(false);
 
@@ -16,7 +15,7 @@ const SelectDueDate = ({ dueDate, ChangeDueDate }) => {
   };
 
   const seleteDueDate = (date) => {
-    ChangeDueDate(date);
+    onSelectDueDate(date);
     closeCalender();
   };
 
@@ -35,7 +34,7 @@ const SelectDueDate = ({ dueDate, ChangeDueDate }) => {
 
   return (
     <>
-      <button className="date" onClick={showCalendar}>
+      <button className="due-date__button" onClick={showCalendar}>
         {!dueDate && <span>기한 설정</span>}
         {dueDate && <DueDateText dueDate={dueDate} />}
       </button>
