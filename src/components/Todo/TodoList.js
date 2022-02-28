@@ -1,8 +1,8 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import TodoItem from "./TodoItem";
 import { useListDrag } from "../../lib/custom/DragAndDrop";
 
-const TodoList = ({ todos, type }) => {
+const TodoList = ({ todos, type, onClickItem }) => {
   const { onDragStart, onDragOver, onDragEnd, onDragLeave, onDrop } =
     useListDrag(todos);
 
@@ -19,6 +19,7 @@ const TodoList = ({ todos, type }) => {
           onDragLeave={onDragLeave}
           onDrop={onDrop}
           onDragEnd={onDragEnd}
+          onClickItem={onClickItem}
         />
       ))}
     </ul>

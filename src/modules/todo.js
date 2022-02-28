@@ -36,8 +36,8 @@ export const updateFinished = (todo) => {
   return { type: UPDATE_FINISHED, data: { todo } };
 };
 
-export const addSelectedTodo = (todo, element, type) => {
-  return { type: ADD_SELECTED_TODO, data: { todoData: todo, element, type } };
+export const addSelectedTodo = (todo, type) => {
+  return { type: ADD_SELECTED_TODO, data: { todoData: todo, type } };
 };
 
 export const updateTitle = (todoId, title, type) => {
@@ -80,15 +80,11 @@ const todoReducer = (state = initialTodos, action) => {
         ...state,
         selectedTodo: {
           todoData: data.todoData,
-          element: data.element,
           type: data.type,
         },
       };
     case UPDATE_TODO_TITLE:
       return produce(state, (draft) => {
-        const todoIndex = draft[data.type].findIndex(
-          (todo) => todo.id === data.todoId
-        );
         draft.selectedTodo.todoData.title = data.title;
       });
     case UPDATE_DUEDATE:

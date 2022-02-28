@@ -23,8 +23,8 @@ const TodoItem = ({
   onDragLeave,
   onDrop,
   onDragEnd,
+  onClickItem,
 }) => {
-  const { selectedTodo } = useSelector((state) => state.todoReducer);
   const dispatch = useDispatch();
   const handleDelete = useCallback(() => {
     if (type === "todos") {
@@ -54,35 +54,24 @@ const TodoItem = ({
   const handleDragLeave = (event) => {
     onDragLeave(event);
   };
+
   const handleDrop = (event) => {
     const update = onDrop(event);
-    if (!update) {
-      return;
-    }
+    if (!update) return;
 
-    if (type === "todos") {
-      onUpdateTodos(update);
-    }
-
-    if (type === "finished") {
-      onUpdateFinished(update);
-    }
+    if (type === "todos") onUpdateTodos(update);
+    if (type === "finished") onUpdateFinished(update);
   };
   const handleDropEnd = (event) => {
     onDragEnd(event);
   };
 
-  const selectTodo = (event) => {
+  const handleClick = (event) => {
     if (event.target.tagName === "svg") {
       return;
     }
-    if (selectedTodo.element) {
-      selectedTodo.element.classList.remove("selected");
-      event.currentTarget.classList.add("selected");
-    } else {
-      event.currentTarget.classList.add("selected");
-    }
-    dispatch(addSelectedTodo(todo, event.currentTarget, type));
+    onClickItem(event.currentTarget);
+    dispatch(addSelectedTodo(todo, type));
   };
 
   return (
@@ -93,7 +82,7 @@ const TodoItem = ({
       onDragLeave={handleDragLeave}
       onDrop={handleDrop}
       onDragEnd={handleDropEnd}
-      onMouseDown={selectTodo}
+      onMouseDown={handleClick}
       draggable
     >
       <div className="left">
@@ -103,10 +92,7 @@ const TodoItem = ({
         />
         <div className="simple-info">
           <span className="todo-name">{todo.title}</span>
-          {todo.dueDate && (
-            // <span className="due-date">{dateConverder(todo.dueDate)}</span>
-            <DueDateText dueDate={todo.dueDate} />
-          )}
+          {todo.dueDate && <DueDateText dueDate={todo.dueDate} />}
         </div>
       </div>
 
