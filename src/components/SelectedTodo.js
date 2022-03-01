@@ -1,42 +1,18 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
-import {
-  addStep,
-  updateTitle,
-  updateStep,
-  updateDueDate,
-} from "../modules/todo";
+import { updateTitle, updateDueDate } from "../modules/todo";
 
-import StepAddForm from "./Todo/StepAddForm";
-import StepInput from "./StepInput";
 import SelectDueDate from "./SelectDueDate";
 import DetailNote from "./DetailNote";
-import {
-  onAddStep,
-  onUpdateStep,
-  onUpdateDueDate,
-} from "../lib/firebase/todosData";
+import { onUpdateDueDate } from "../lib/firebase/todosData";
 import { dateForData } from "../lib/util/date";
+import Steps from "./Steps";
 
 const SelectedTodo = ({ selectedTodo, test }) => {
-  const { todoData, elementm, type } = selectedTodo;
+  const { todoData, type } = selectedTodo;
   const [titleValue, setTitleValue] = useState(todoData.title);
 
   const dispatch = useDispatch();
-
-  const onSubmit = (inputValue) => {
-    const stepId = Date.now();
-    const newStep = { id: stepId, title: inputValue, check: false };
-
-    onAddStep(todoData.id, newStep, type);
-    dispatch(addStep(todoData.id, newStep, type));
-  };
-
-  const onChange = (event, index) => {
-    const value = event.target.value;
-    onUpdateStep(todoData.id, value, index, type);
-    dispatch(updateStep(todoData.id, value, index, type));
-  };
 
   const onKeyDown = (event) => {
     if (event.key === "Enter") {
@@ -82,21 +58,7 @@ const SelectedTodo = ({ selectedTodo, test }) => {
         </h3>
       </div>
       <div className="selected-todo__step-box selected-todo__item">
-        <div className="step-box__list">
-          {todoData.steps &&
-            todoData.steps.map((step, index) => (
-              <StepInput
-                key={step.id}
-                step={step}
-                index={index}
-                onChange={onChange}
-                todoId={todoData.id}
-              />
-            ))}
-        </div>
-        <div className="selected-todo__add-step">
-          <StepAddForm onSubmit={onSubmit} />
-        </div>
+        <Steps steps={todoData.steps} todoId={todoData.id} type={type} />
       </div>
       <div className="selected-todo__due-date-box selected-todo__item">
         <SelectDueDate
@@ -106,11 +68,6 @@ const SelectedTodo = ({ selectedTodo, test }) => {
       </div>
       <div className="selected-todo__note selected-todo__item">
         <DetailNote todoId={todoData.id} note={todoData.note} />
-      </div>
-      <div>
-        <p>{test?.dueDate}</p>
-        <p>{test?.note}</p>
-        <p></p>
       </div>
     </div>
   );
