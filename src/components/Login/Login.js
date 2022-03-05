@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
+import useInput from "../../lib/custom/useInput";
 import {
   githubLoginInitiate,
   googleLoginInitiate,
@@ -8,11 +9,8 @@ import {
 } from "../../modules/user";
 
 const Login = () => {
-  const [loginForm, setLoginForm] = useState({
-    email: "",
-    password: "",
-  });
-  const { email, password } = loginForm;
+  const [email, onChangeEmail] = useInput("");
+  const [password, onChangePassword] = useInput("");
 
   const dispatch = useDispatch();
   const history = useHistory();
@@ -21,11 +19,6 @@ const Login = () => {
   const onSubmit = (e) => {
     e.preventDefault();
     dispatch(loginInitiate(email, password));
-  };
-
-  const onChange = (e) => {
-    const { name, value } = e.target;
-    setLoginForm({ ...loginForm, [name]: value });
   };
 
   const handleGoogleLogin = () => {
@@ -46,8 +39,13 @@ const Login = () => {
     <div>
       <h1>Login</h1>
       <form onSubmit={onSubmit}>
-        <input type="email" name="email" required onChange={onChange} />
-        <input type="password" name="password" required onChange={onChange} />
+        <input type="email" name="email" required onChange={onChangeEmail} />
+        <input
+          type="password"
+          name="password"
+          required
+          onChange={onChangePassword}
+        />
         <input type="submit" />
       </form>
       <p className="error-message">{error?.message}</p>
