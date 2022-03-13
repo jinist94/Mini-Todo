@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import "./Login.scss";
+import "../cardLayout.scss";
 import { useHistory } from "react-router-dom";
 import useInput from "../../lib/custom/useInput";
 import { githubLoginInitiate, googleLoginInitiate, loginInitiate } from "../../modules/user";
@@ -35,26 +35,26 @@ const Login = () => {
   }, [currentUser]);
 
   return (
-    <div className="login__wrapper">
-      <div className="login__box">
+    <div className="card-layout__container">
+      <div className="card-layout">
         <h1>Welcome</h1>
-        <form className="login-form" onSubmit={onSubmit}>
+        <form className="card-layout__form" onSubmit={onSubmit}>
           <input type="email" name="email" placeHolder="Email" required onChange={onChangeEmail} />
           <input type="password" name="password" placeHolder="Password" required onChange={onChangePassword} />
-          {error && <p className="login-form__error">{error.message}</p>}
+          {error && <p className="card-layout__error">{error.message}</p>}
           <button type="submit"> LOGIN</button>
         </form>
-        <div className="join-area">
+        <div className="card-layout__instructions">
           <p>신규 사용자신가요?</p>
-          <Link to="/join">회원가입</Link>
+          <Link to="/signup">회원가입</Link>
         </div>
-        <div className="social-login">
-          <p className="social-login__title">Or Login with</p>
-          <div className="social-login__button-wrap">
-            <button className="social-login__google" onClick={handleGoogleLogin}>
+        <div className="social-buttons__container">
+          <p className="social-buttons__instructions">Or Login with</p>
+          <div className="social__buttons">
+            <button className="social-button__google" onClick={handleGoogleLogin}>
               <GoogleOutlined />
             </button>
-            <button className="social-login__github" onClick={handleGithubLogin}>
+            <button className="social-button__github" onClick={handleGithubLogin}>
               <GithubOutlined />
             </button>
           </div>

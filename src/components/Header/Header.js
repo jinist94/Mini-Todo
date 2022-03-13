@@ -10,8 +10,7 @@ const Header = (props) => {
   const { currentUser } = useSelector((state) => state.userReducer);
   const profileImg = currentUser?.photoURL || "images/profile-img.jpg";
   const displayName = currentUser?.displayName || "";
-  const { modalState, handleShowModal, handleCloseModal, modalRef } =
-    useModal();
+  const { modalState, handleShowModal, handleCloseModal, modalRef } = useModal();
   const onClickProfile = () => {
     handleShowModal();
   };
@@ -26,8 +25,8 @@ const Header = (props) => {
         <div className="profile">
           {!currentUser ? (
             <>
-              <Link to="/join" className="join-btn">
-                Join
+              <Link to="/signup" className="signup-btn">
+                Sign Up
               </Link>
               <Link to="/login" className="login-btn">
                 Login
@@ -41,11 +40,7 @@ const Header = (props) => {
         </div>
         {currentUser && modalState && (
           <div ref={modalRef}>
-            <ProfileModal
-              displayName={displayName}
-              profileImg={profileImg}
-              handleCloseModal={handleCloseModal}
-            />
+            <ProfileModal displayName={displayName} profileImg={profileImg} handleCloseModal={handleCloseModal} />
           </div>
         )}
       </div>

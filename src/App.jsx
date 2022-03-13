@@ -2,7 +2,7 @@ import "./App.scss";
 import Header from "./components/Header/Header";
 import Todos from "./components/Todo/Todos";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
-import Join from "./components/Join/Join";
+import Signup from "./components/Signup/Signup";
 import Login from "./components/Login/Login";
 import "./lib/firebase/firebase";
 import { useEffect } from "react";
@@ -51,7 +51,7 @@ function App() {
         <div className="container">
           <Switch>
             <Route path="/" render={() => <Todos />} exact />
-            <Route path="/join" render={() => <Join />} />
+            <Route path="/signup" render={() => <Signup />} />
             <Route path="/login" render={() => <Login />} />
           </Switch>
         </div>

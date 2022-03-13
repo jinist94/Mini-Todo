@@ -1,0 +1,112 @@
+@import "./variable";
+
+.container {
+  background-color: #f9f9f9;
+}
+.card-layout__container {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  .card-layout {
+    margin-top: 10em;
+    border: 1px solid $border-gray;
+    border-radius: 10px;
+    padding: 3em 2em;
+    width: 350px;
+    box-shadow: $light-shadow;
+    background-color: white;
+  }
+  h1 {
+    text-align: center;
+  }
+  .card-layout__form {
+    margin-top: 2em;
+    input {
+      display: block;
+      width: 100%;
+      padding: 1em;
+      margin-top: 1em;
+      border-bottom: 1px solid $border-gray;
+      transition: all ease 0.5s;
+    }
+    input:focus {
+      border-bottom: 1px solid #3844bd;
+      box-shadow: 0 1px 0 #3844bd;
+    }
+    .card-layout__error {
+      font-size: 0.8rem;
+      color: $font-red;
+      span {
+        margin-left: 0.5em;
+      }
+    }
+    button {
+      background-color: #3844bd;
+      cursor: pointer;
+      color: white;
+      padding: 0.5em;
+      width: 100%;
+      text-align: center;
+      font-size: 0.9rem;
+      border-radius: 2em;
+      margin-top: 1em;
+      &:hover {
+        opacity: 0.9;
+      }
+    }
+  }
+
+  .card-layout__instructions {
+    font-size: 0.9rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: $font-gray;
+    a {
+      color: #3844bd;
+      &:hover {
+        opacity: 0.9;
+      }
+    }
+  }
+}
+
+.social-buttons__container {
+  margin-top: 1.5em;
+
+  .social-buttons__instructions {
+    text-align: center;
+    font-size: 0.9rem;
+    color: $font-gray;
+  }
+  .social__buttons {
+    display: flex;
+    justify-content: center;
+    button {
+      background-color: white;
+      display: block;
+      color: white;
+      font-size: 20px;
+      padding: 0.4em;
+      border-radius: 50%;
+      margin: 0 0.1em;
+      cursor: pointer;
+      span {
+        display: block;
+      }
+    }
+    .social-button__google {
+      background-color: #df4930;
+      &:hover {
+        opacity: 0.9;
+      }
+    }
+    .social-button__github {
+      background-color: #282828;
+      &:hover {
+        opacity: 0.9;
+      }
+    }
+  }
+}
