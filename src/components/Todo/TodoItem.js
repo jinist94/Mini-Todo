@@ -3,16 +3,16 @@ import { useDispatch, useSelector } from "react-redux";
 import CloseBtn from "../Button/CloseBtn";
 import CheckBtn from "../Button/CheckBtn";
 
-import {
-  addTodo,
-  deleteTodo,
-  updateTodo,
-  deleteFinished,
-  addFinished,
-  updateFinished,
-  addSelectedTodo,
-} from "../../modules/todo";
+import { addSelectedTodo } from "../../modules/todo";
 import DueDateText from "./DueDateText";
+import {
+  onAddTodo,
+  onRemoveTodo,
+  onUpdateTodos,
+  onAddFinished,
+  onRemoveFinished,
+  onUpdateFinished,
+} from "../../lib/firebase/todosData";
 
 const TodoItem = ({
   todo,
@@ -20,28 +20,28 @@ const TodoItem = ({
   index,
   onDragStart,
   onDragOver,
-  onDragEnter,
   onDragLeave,
   onDrop,
-  onClick,
   onDragEnd,
+  onClickItem,
 }) => {
-  const selectedTodo = useSelector((state) => state.selectedTodo);
   const dispatch = useDispatch();
   const handleDelete = useCallback(() => {
-    if (type === "todos") dispatch(deleteTodo(todo.id));
-    if (type === "finished") dispatch(deleteFinished(todo.id));
+    if (type === "todos") {
+      onRemoveTodo(todo.id);
+    }
+    if (type === "finished") onRemoveFinished(todo.id);
   }, []);
 
   const handleClickChekck = useCallback((event) => {
     event.stopPropagation();
     if (type === "todos") {
-      dispatch(deleteTodo(todo.id));
-      dispatch(addFinished(todo));
+      onAddFinished(todo);
+      onRemoveTodo(todo.id);
     }
     if (type === "finished") {
-      dispatch(deleteFinished(todo.id));
-      dispatch(addTodo(todo));
+      onAddTodo(todo);
+      onRemoveFinished(todo.id);
     }
   }, []);
 
@@ -51,38 +51,27 @@ const TodoItem = ({
   const handleDragOver = (event) => {
     onDragOver(event);
   };
-  const handleDragEnter = (event) => {
-    onDragEnter(event);
-  };
   const handleDragLeave = (event) => {
     onDragLeave(event);
   };
+
   const handleDrop = (event) => {
     const update = onDrop(event);
+    if (!update) return;
 
-    if (type === "todos") {
-      dispatch(updateTodo(update));
-    }
-
-    if (type === "finished") {
-      dispatch(updateFinished(update));
-    }
+    if (type === "todos") onUpdateTodos(update);
+    if (type === "finished") onUpdateFinished(update);
   };
   const handleDropEnd = (event) => {
     onDragEnd(event);
   };
 
-  const selectTodo = (event) => {
+  const handleClick = (event) => {
     if (event.target.tagName === "svg") {
       return;
     }
-    if (selectedTodo.element) {
-      selectedTodo.element.classList.remove("selected");
-      event.currentTarget.classList.add("selected");
-    } else {
-      event.currentTarget.classList.add("selected");
-    }
-    dispatch(addSelectedTodo(todo, event.currentTarget, type));
+    onClickItem(event.currentTarget);
+    dispatch(addSelectedTodo(todo, type));
   };
 
   return (
@@ -90,11 +79,10 @@ const TodoItem = ({
       data-index={index}
       onDragStart={handleDragStart}
       onDragOver={handleDragOver}
-      onDragEnter={handleDragEnter}
       onDragLeave={handleDragLeave}
       onDrop={handleDrop}
       onDragEnd={handleDropEnd}
-      onMouseDown={selectTodo}
+      onMouseDown={handleClick}
       draggable
     >
       <div className="left">
@@ -104,10 +92,7 @@ const TodoItem = ({
         />
         <div className="simple-info">
           <span className="todo-name">{todo.title}</span>
-          {todo.dueDate && (
-            // <span className="due-date">{dateConverder(todo.dueDate)}</span>
-            <DueDateText dueDate={todo.dueDate} />
-          )}
+          {todo.dueDate && <DueDateText dueDate={todo.dueDate} />}
         </div>
       </div>
 

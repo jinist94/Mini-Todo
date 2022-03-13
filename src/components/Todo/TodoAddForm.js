@@ -1,12 +1,11 @@
-import React, { useEffect, useState, useRef } from "react";
-import { useDispatch } from "react-redux";
-import { addTodo } from "../../modules/todo";
+import React, { useState } from "react";
+import { dateForData } from "../../lib/util/date";
 import SelectDueDate from "../SelectDueDate";
+import { onAddTodo } from "../../lib/firebase/todosData";
 
 const TodoAddForm = () => {
   const [todoValue, setTodoValue] = useState("");
   const [dueDate, setDueDate] = useState("");
-  const dispatch = useDispatch();
 
   const onChange = (event) => {
     const { value } = event.target;
@@ -15,15 +14,23 @@ const TodoAddForm = () => {
   const onSubmit = (event) => {
     event.preventDefault();
     if (todoValue) {
-      const newTodo = { id: Date.now(), title: todoValue, dueDate, steps: [] };
+      const newTodo = {
+        id: Date.now(),
+        title: todoValue,
+        dueDate,
+        steps: "",
+        note: "",
+      };
       setTodoValue("");
       setDueDate("");
-      dispatch(addTodo(newTodo));
+
+      onAddTodo(newTodo);
     }
   };
 
-  const updateDueDate = (date) => {
-    setDueDate(date);
+  const onSelectDueDate = (date) => {
+    const convertedDate = dateForData(date);
+    setDueDate(convertedDate);
   };
 
   return (
@@ -37,8 +44,8 @@ const TodoAddForm = () => {
         />
         <button onClick={onSubmit}>추가</button>
       </form>
-      <div className="due-date">
-        <SelectDueDate dueDate={dueDate} updateDueDate={updateDueDate} />
+      <div className="add-todo__due-date">
+        <SelectDueDate dueDate={dueDate} onSelectDueDate={onSelectDueDate} />
       </div>
     </div>
   );

@@ -1,11 +1,21 @@
-import { createStore } from "redux";
+import { createStore, combineReducers, applyMiddleware } from "redux";
+import { composeWithDevTools } from "redux-devtools-extension";
+import userReducer from "./user";
+import logger from "redux-logger";
+import thunk from "redux-thunk";
 import todoReducer from "./todo";
 
-const rootReducer = todoReducer;
+const rootReducer = combineReducers({ todoReducer, userReducer });
+
+const middleware = [thunk];
+
+if (process.env.NODE_ENV === "development") {
+  middleware.push(logger);
+}
 
 const store = createStore(
   rootReducer,
-  window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
+  composeWithDevTools(applyMiddleware(...middleware))
 );
 
 export default store;

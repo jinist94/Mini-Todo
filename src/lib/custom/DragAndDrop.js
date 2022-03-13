@@ -1,17 +1,16 @@
-import { useState } from "react/cjs/react.development";
-
 export const useListDrag = (lists) => {
-  const [drag, setDrag] = useState(null);
-  let current = null;
   let height = 0;
   let moveY = 0;
   let movePosition = height / 2;
 
   const onDragStart = (event) => {
-    setDrag(event.target);
     event.target.style.opacity = "0.3";
     event.dataTransfer.effectAllowed = "move";
-    event.dataTransfer.setData("text/html", event.target);
+    event.dataTransfer.setData(
+      "dragUl",
+      event.target.closest(".todo-list").className
+    );
+    event.dataTransfer.setData("dragIndex", event.target.dataset.index);
   };
 
   const onDragOver = (event) => {
@@ -27,29 +26,28 @@ export const useListDrag = (lists) => {
       event.currentTarget.classList.add("bottom");
       event.currentTarget.classList.remove("top");
     }
+
     return false;
   };
 
   const onDragLeave = (event) => {
-    if (event.currentTarget !== current) {
-      event.currentTarget.classList.remove("bottom");
-      event.currentTarget.classList.remove("top");
-    }
-  };
-  const onDragEnter = (event) => {
-    current = event.currentTarget;
+    event.currentTarget.classList.remove("bottom");
+    event.currentTarget.classList.remove("top");
   };
 
   const onDrop = (event) => {
-    let dragIndex = Number(drag.dataset.index);
+    let dragIndex = Number(event.dataTransfer.getData("dragIndex"));
+    let dragUl = event.dataTransfer.getData("dragUl");
+
     let targetIndex = Number(event.currentTarget.dataset.index);
+    let targetUl = event.target.closest(".todo-list").className;
     let _lists = [...lists];
     let _listItem = _lists[dragIndex];
 
     event.currentTarget.classList.remove("bottom");
     event.currentTarget.classList.remove("top");
 
-    if (dragIndex == targetIndex) {
+    if (dragIndex == targetIndex || dragUl !== targetUl) {
       return;
     }
 
@@ -76,7 +74,6 @@ export const useListDrag = (lists) => {
   };
 
   const onDragEnd = (event) => {
-    setDrag(null);
     event.target.style.opacity = "1";
   };
 
@@ -85,7 +82,6 @@ export const useListDrag = (lists) => {
     onDragOver,
     onDragEnd,
     onDragLeave,
-    onDragEnter,
     onDrop,
   };
 };

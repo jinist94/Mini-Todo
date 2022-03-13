@@ -25,11 +25,8 @@
   width: 100%;
   height: 100%;
   padding: 1em;
-  .todo-box {
-    background-color: white;
-    padding: 1em;
-    border: 1px solid $border-gray;
-    .todo-name {
+  .selected-todo__todo-box {
+    .todo-box__name {
       input {
         width: 100%;
         border: none;
@@ -40,7 +37,13 @@
       }
     }
   }
-  .todo-step-box {
+
+  .selected-todo__item {
+    border: 1px solid $border-gray;
+    background: white;
+    padding: 1em;
+  }
+  .selected-todo__step-box {
     border: 1px solid $border-gray;
     border-top: none;
     input {
@@ -50,7 +53,7 @@
       font-size: 0.9rem;
       outline: none;
     }
-    .step-list {
+    .step-box__list {
       background: white;
       .input-wrap {
         padding: 0.5em 1em;
@@ -73,14 +76,11 @@
         }
       }
     }
-    .add-step {
-      .step-form {
-        padding: 0.5em 1em;
-        background: white;
-      }
+    .selected-todo__add-step {
     }
   }
-  .todo-due-date-box {
+
+  .selected-todo__due-date-box {
     background-color: white;
     margin-top: 1em;
     button.date {
@@ -130,22 +130,30 @@
       font-size: 0.9rem;
     }
   }
-  .due-date {
+  .add-todo__due-date {
     margin-top: 0.8em;
-    .date {
+    .due-date__button {
+      padding: 0.5em;
+      color: $font-gray;
       font-size: 0.9rem;
-      span {
-        font-size: 0.8rem;
-        padding: 0.5em;
-        border-radius: 3px;
-        color: #606060;
-        display: inline-block;
-        cursor: pointer;
-        &:hover {
-          background-color: #e7e7e7;
-        }
+      &:hover {
+        background-color: #e7e7e7;
       }
     }
+  }
+}
+
+// DueDateText
+span.due-date__text {
+  font-size: 0.8rem;
+  border-radius: 3px;
+  color: #606060;
+  display: inline-block;
+  &.over-due {
+    color: $font-red;
+  }
+  &.today {
+    color: #3849f5;
   }
 }
 .finished {
@@ -192,27 +200,15 @@
     }
   }
 }
-
 .due-date {
   margin-top: 0.2em;
   font-size: 0.8rem;
-  color: $font-gray;
-  &.over-due {
-    color: $font-red;
-  }
-  &.today {
-    color: #3849f5;
-  }
 }
 
-.todo-note {
+.selected-todo__note {
   margin-top: 1em;
 }
 .datail-note {
-  border: 1px solid $border-gray;
-  background: white;
-  padding: 1em;
-  box-sizing: border-box;
   &.edit {
     border: 1px solid #000;
   }

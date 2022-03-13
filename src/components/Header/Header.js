@@ -1,8 +1,21 @@
 import React from "react";
+import { useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 import "./Header.scss";
+import ProfileModal from "./ProfileModal";
+
+import { useModal } from "../../lib/custom/useModal";
 
 const Header = (props) => {
-  const profileImg = "images/profile-img.jpg";
+  const { currentUser } = useSelector((state) => state.userReducer);
+  const profileImg = currentUser?.photoURL || "images/profile-img.jpg";
+  const displayName = currentUser?.displayName || "";
+  const { modalState, handleShowModal, handleCloseModal, modalRef } =
+    useModal();
+  const onClickProfile = () => {
+    handleShowModal();
+  };
+
   return (
     <header>
       <div className="logo">Minitodo</div>
@@ -11,8 +24,30 @@ const Header = (props) => {
       </div>
       <div className="right-menu">
         <div className="profile">
-          <img src={profileImg} alt="profile" />
+          {!currentUser ? (
+            <>
+              <Link to="/join" className="join-btn">
+                Join
+              </Link>
+              <Link to="/login" className="login-btn">
+                Login
+              </Link>
+            </>
+          ) : (
+            <div onClick={onClickProfile}>
+              <img src={profileImg} alt="profile" />
+            </div>
+          )}
         </div>
+        {currentUser && modalState && (
+          <div ref={modalRef}>
+            <ProfileModal
+              displayName={displayName}
+              profileImg={profileImg}
+              handleCloseModal={handleCloseModal}
+            />
+          </div>
+        )}
       </div>
     </header>
   );

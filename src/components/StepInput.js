@@ -3,15 +3,19 @@ import CheckBtn from "./Button/CheckBtn";
 import CloseBtn from "./Button/CloseBtn";
 import { deleteStep, updateStepCheck } from "../modules/todo";
 import { useDispatch } from "react-redux";
+import { onRemoveStep } from "../lib/firebase/todosData";
+import { onCheckStep } from "../lib/firebase/todosData";
 
 const StepInput = ({ step, onChange, index, todoId }) => {
   const dispatch = useDispatch();
 
   const onClickCheck = useCallback((event) => {
     dispatch(updateStepCheck(todoId, index));
+    onCheckStep(todoId, index);
   }, []);
   const onClickClose = useCallback(() => {
     dispatch(deleteStep(todoId, step.id));
+    onRemoveStep(todoId, step.id);
   }, []);
   return (
     <div className="input-wrap">

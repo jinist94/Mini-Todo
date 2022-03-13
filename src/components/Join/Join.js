@@ -1,37 +1,80 @@
-import React, { useState } from "react";
-import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
+import React, { useEffect, useState } from "react";
+
+import { useDispatch, useSelector } from "react-redux";
+import { useHistory } from "react-router-dom";
+import { registerInitiate } from "../../modules/user";
 
 const Join = (props) => {
-  const [errorMsg, setErrorMsg] = useState("");
+  const [joinForm, setJoinForm] = useState({
+    displayName: "",
+    email: "",
+    password: "",
+    passwordConfirm: "",
+  });
+  const { displayName, email, password, passwordConfirm } = joinForm;
+  const { currentUser, error } = useSelector((state) => state.userReducer);
+  const dispatch = useDispatch();
+  const history = useHistory();
+
+  useEffect(() => {
+    console.log(currentUser, "[Join - currentUser]");
+    if (currentUser) {
+      history.push("/");
+    }
+  }, [currentUser]);
+
   const onSubmit = async (event) => {
     event.preventDefault();
-    const email = event.target.email.value;
-    const password = event.target.password.value;
-    try {
-      const auth = getAuth();
-      const user = await createUserWithEmailAndPassword(auth, email, password);
-      console.log(user, "Login");
-    } catch (error) {
-      console.log(error.code, "error code");
-      console.log(error.message, "errorMessage");
-      setErrorMsg(error.message);
+    if (password !== passwordConfirm) {
+      alert("password가 일치하지 않습니다.");
+      return;
     }
+    dispatch(registerInitiate(email, password, displayName));
   };
 
+  const onChange = (e) => {
+    const { name, value } = e.target;
+    setJoinForm({ ...joinForm, [name]: value });
+  };
   return (
-    <div className="login">
+    <div className="join">
       <h1>Join</h1>
       <form className="join-form" onSubmit={onSubmit}>
-        <input name="email" type="email" plaseholder="email" required />
+        <input
+          name="displayName"
+          type="displayName"
+          plaseholder="Name"
+          value={displayName}
+          required
+          onChange={onChange}
+        />
+        <input
+          name="email"
+          type="email"
+          plaseholder="Email"
+          value={email}
+          required
+          onChange={onChange}
+        />
         <input
           name="password"
           type="password"
-          plaseholder="password"
+          plaseholder="Password"
+          value={password}
           required
+          onChange={onChange}
+        />
+        <input
+          name="passwordConfirm"
+          type="password"
+          plaseholder="Password"
+          value={passwordConfirm}
+          required
+          onChange={onChange}
         />
         <input type="submit" />
       </form>
-      <p className="error-message">{errorMsg}</p>
+      <p className="error-message">{error.message}</p>
     </div>
   );
 };
