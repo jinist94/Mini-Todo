@@ -1,3 +1,5 @@
+@import "./components/variable";
+
 * {
   box-sizing: border-box;
 }
@@ -17,6 +19,7 @@ h3 {
 
 button {
   all: unset;
+  box-sizing: border-box;
 }
 
 html {
@@ -40,4 +43,16 @@ i.arr-icon .svg {
 }
 i.arr-icon.next {
   transform: rotate(180deg);
+}
+
+input {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  border: 0;
+  outline: 0;
+}
+a {
+  text-decoration: none;
+  color: $font-black;
 }
