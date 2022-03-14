@@ -94,7 +94,7 @@ const todoReducer = (state = initialTodos, action) => {
     case ADD_STEP:
       return produce(state, (draft) => {
         draft.selectedTodo.todoData.steps
-          ? (draft.selectedTodo.todoData.steps = [data.step, ...draft.selectedTodo.todoData.steps])
+          ? (draft.selectedTodo.todoData.steps = [...draft.selectedTodo.todoData.steps, data.step])
           : (draft.selectedTodo.todoData.steps = [data.step]);
       });
     case UPDATE_STEP:

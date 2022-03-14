@@ -20,7 +20,6 @@ function App() {
   useEffect(() => {
     if (!currentUser) return;
     const asyncOff = asyncTodo(currentUser.uid, (data) => {
-      console.log(data.todos, "스냅샷 콜백 데이터");
       const getData = {
         todos: data.todos || [],
         finished: data.finished || [],

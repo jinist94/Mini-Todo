@@ -16,17 +16,12 @@ const Steps = ({ steps, todoId, type }) => {
     dispatch(addStep(todoId, newStep, type));
   };
 
-  const onChange = (event, index) => {
-    const value = event.target.value;
-    onUpdateStep(todoId, value, index, type);
-    dispatch(updateStep(todoId, value, index, type));
-  };
   console.log(steps, "steps");
 
   return (
     <>
       <div className="step-box__list">
-        {steps && steps.map((step, index) => <StepInput key={step.id} step={step} index={index} onChange={onChange} todoId={todoId} />)}
+        {steps && steps.map((step, index) => <StepInput key={step.id} step={step} index={index} todoId={todoId} type={type} />)}
       </div>
       <div className="selected-todo__add-step">
         <StepAddForm onSubmit={onSubmit} />

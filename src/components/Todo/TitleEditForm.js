@@ -3,7 +3,7 @@ import { useDispatch } from "react-redux";
 import { updateTitle } from "../../modules/todo";
 import { onUpdateTitle } from "../../lib/firebase/todosData";
 
-const TitleEditForm = ({ todoData, type }) => {
+const TitleEditForm = ({ title, type, todoId }) => {
   const [titleValue, setTitleValue] = useState("");
   const dispatch = useDispatch();
   const onTitleChange = (event) => {
@@ -12,7 +12,7 @@ const TitleEditForm = ({ todoData, type }) => {
   const onKeyDown = (event) => {
     if (event.key === "Enter") {
       if (event.target.value === "") {
-        setTitleValue(todoData.title);
+        setTitleValue(title);
         return;
       }
       event.target.blur();
@@ -20,16 +20,16 @@ const TitleEditForm = ({ todoData, type }) => {
   };
   const onBlur = (event) => {
     if (event.target.value === "") {
-      setTitleValue(todoData.title);
+      setTitleValue(title);
       return;
     }
-    dispatch(updateTitle(todoData.id, titleValue, type));
-    onUpdateTitle(todoData.id, titleValue, type);
+    // dispatch(updateTitle(todoData.id, titleValue, type));
+    onUpdateTitle(todoId, titleValue, type);
   };
 
   useEffect(() => {
-    setTitleValue(todoData.title);
-  }, [todoData]);
+    setTitleValue(title);
+  }, [title]);
 
   return (
     <form>

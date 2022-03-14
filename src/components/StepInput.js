@@ -1,28 +1,38 @@
-import React, { useCallback } from "react";
+import React, { useCallback, useState } from "react";
 import CheckBtn from "./Button/CheckBtn";
 import CloseBtn from "./Button/CloseBtn";
-import { deleteStep, updateStepCheck } from "../modules/todo";
+import { deleteStep, updateStepCheck, updateStep } from "../modules/todo";
 import { useDispatch } from "react-redux";
-import { onRemoveStep } from "../lib/firebase/todosData";
-import { onCheckStep } from "../lib/firebase/todosData";
+import { onRemoveStep, onUpdateStep, onCheckStep } from "../lib/firebase/todosData";
 
-const StepInput = ({ step, onChange, index, todoId }) => {
+const StepInput = ({ step, index, todoId, type }) => {
   const dispatch = useDispatch();
+  const [inputValue, setInputValue] = useState(step.title);
+  const [isCheck, setIsCheck] = useState(step.check);
+
+  const onChange = (event, index) => {
+    setInputValue(event.target.value);
+    onUpdateStep(todoId, event.target.value, index, type);
+    // dispatch(updateStep(todoId, value, index, type));
+  };
 
   const onClickCheck = useCallback((event) => {
-    dispatch(updateStepCheck(todoId, index));
-    onCheckStep(todoId, index);
+    // dispatch(updateStepCheck(todoId, index));
+    setIsCheck((prev) => !prev);
+    onCheckStep(todoId, index, type);
   }, []);
+
   const onClickClose = useCallback(() => {
-    dispatch(deleteStep(todoId, step.id));
-    onRemoveStep(todoId, step.id);
+    dispatch(deleteStep(todoId, step.id, type));
+    onRemoveStep(todoId, step.id, type);
   }, []);
+
   return (
     <div className="input-wrap">
-      <CheckBtn onClick={onClickCheck} isCheck={step.check} />
+      <CheckBtn onClick={onClickCheck} isCheck={isCheck} />
       <input
         className={step.check ? "check" : ""}
-        value={step.title}
+        value={inputValue}
         onChange={(event) => {
           onChange(event, index);
         }}

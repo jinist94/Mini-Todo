@@ -1,15 +1,17 @@
-import React from "react";
+import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { updateNote } from "../modules/todo";
 import { onUpdateNote } from "../lib/firebase/todosData";
 
-const DetailNote = ({ todoId, note }) => {
+const DetailNote = ({ todoId, note, type }) => {
+  const [text, setText] = useState(note);
   const dispatch = useDispatch();
   const onChange = ({ target }) => {
     target.style.height = "auto";
     target.style.height = target.scrollHeight + "px";
-    dispatch(updateNote(todoId, target.value));
-    onUpdateNote(todoId, target.value);
+    // dispatch(updateNote(todoId, target.value));
+    setText(target.value);
+    onUpdateNote(todoId, target.value, type);
   };
   const onFocus = ({ target }) => {
     target.parentNode.classList.add("edit");
@@ -19,14 +21,7 @@ const DetailNote = ({ todoId, note }) => {
   };
   return (
     <div className="datail-note">
-      <textarea
-        onChange={onChange}
-        onFocus={onFocus}
-        onBlur={onBlur}
-        value={note}
-        placeholder="메모를 입력해주세요."
-        rows="1"
-      />
+      <textarea onChange={onChange} onFocus={onFocus} onBlur={onBlur} value={text} placeholder="메모를 입력해주세요." rows="1" />
     </div>
   );
 };

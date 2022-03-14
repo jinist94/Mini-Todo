@@ -24,17 +24,17 @@ const SelectedTodo = ({ selectedTodo }) => {
     <div className="selected-todo">
       <div className="selected-todo__todo-box selected-todo__item">
         <h3 className="todo-box__name">
-          <TitleEditForm todoData={todoData} type={type} />
+          <TitleEditForm title={todoData.title} type={type} todoId={todoData.id} />
         </h3>
       </div>
       <div className="selected-todo__step-box selected-todo__item">
         <Steps steps={todoData.steps} todoId={todoData.id} type={type} />
       </div>
       <div className="selected-todo__due-date-box selected-todo__item">
-        <SelectDueDate onSelectDueDate={onSelectDueDate} dueDate={todoData.dueDate} />
+        <SelectDueDate onSelectDueDate={onSelectDueDate} dueDate={todoData.dueDate} type={type} />
       </div>
       <div className="selected-todo__note selected-todo__item">
-        <DetailNote todoId={todoData.id} note={todoData.note} />
+        <DetailNote todoId={todoData.id} note={todoData.note} type={type} />
       </div>
     </div>
   );
