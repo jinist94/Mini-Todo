@@ -11,6 +11,7 @@ import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { setUser } from "./modules/user";
 import { asyncTodo } from "./lib/firebase/todosData";
 import { updateFinished, updateTodo } from "./modules/todo";
+import NotFound from "./components/NotFound/NotFound";
 
 function App() {
   const { currentUser } = useSelector((state) => state.userReducer);
@@ -53,6 +54,7 @@ function App() {
             <Route path="/" render={() => <Todos />} exact />
             <Route path="/signup" render={() => <Signup />} />
             <Route path="/login" render={() => <Login />} />
+            <Route render={() => <NotFound />} />
           </Switch>
         </div>
       </BrowserRouter>

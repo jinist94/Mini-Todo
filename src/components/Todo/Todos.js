@@ -6,9 +6,12 @@ import { useSelector } from "react-redux";
 import TodoAddForm from "./TodoAddForm";
 import TodoList from "./TodoList";
 import SelectedTodo from "../SelectedTodo";
+import { useHistory } from "react-router-dom";
 
 const Todos = (props) => {
   const { todos, finished, selectedTodo } = useSelector((state) => state.todoReducer);
+  const { currentUser } = useSelector((state) => state.userReducer);
+  const history = useHistory();
   const [selectedItem, setSelectedItem] = useState();
 
   const onClickItem = (target) => {
@@ -19,6 +22,11 @@ const Todos = (props) => {
     setSelectedItem(target);
   };
 
+  useEffect(() => {
+    if (!currentUser) {
+      history.push("/login");
+    }
+  }, [currentUser]);
   return (
     <div className="todo-container">
       <div className="content">
