@@ -5,15 +5,37 @@ header {
   justify-content: space-between;
   padding: 1em 2em;
   border-bottom: 1px solid $border-gray;
-  .profile {
+  .header-logo {
     display: flex;
     align-items: center;
+    font-size: 1.2rem;
+    font-weight: bold;
   }
-  .profile img {
-    width: 35px;
-    border-radius: 50%;
-    border: 1px solid $border-gray;
-    cursor: pointer;
+  .header-menu__buttons {
+    display: flex;
+    a {
+      border-radius: 20px;
+      display: block;
+      color: #3844bd;
+      font-weight: bold;
+      font-size: 0.9rem;
+      padding: 0.2em 0.5em;
+      text-align: center;
+      margin-left: 0.5em;
+      &:hover {
+        opacity: 0.9;
+      }
+    }
+  }
+  .header-menu__profile {
+    display: flex;
+    align-items: center;
+    img {
+      width: 35px;
+      border-radius: 50%;
+      border: 1px solid $border-gray;
+      cursor: pointer;
+    }
   }
 }
 
@@ -24,27 +46,32 @@ header {
   right: 1em;
   background-color: white;
   box-shadow: $nomal-shadow;
-  .profile-wrapper {
-    padding: 1.5em;
+  .profile-modal__container {
     text-align: center;
-    .profile-img {
-      width: 70px;
-      border-radius: 50%;
-      border: 1px solid $border-gray;
+    .profile-modal__image {
+      margin-top: 1em;
+      img {
+        width: 70px;
+        border-radius: 50%;
+        border: 1px solid $border-gray;
+        cursor: pointer;
+      }
+    }
+    button {
+      display: block;
+      padding: 1em 2em;
+      width: 100%;
       cursor: pointer;
+      &:hover {
+        background-color: $bg-rightGray;
+      }
+    }
+    .profile-modal__button-logout {
+      border-top: 1px solid $border-gray;
     }
   }
-  .profile-name {
+  .profile-modal__name {
     text-align: center;
     font-weight: bold;
-  }
-  .profile-logout {
-    border-top: 1px solid $border-gray;
-    width: 100%;
-    text-align: center;
-    span {
-      display: block;
-      padding: 1em 0;
-    }
   }
 }

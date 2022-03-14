@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import "./Header.scss";
@@ -14,30 +14,36 @@ const Header = (props) => {
   const onClickProfile = () => {
     handleShowModal();
   };
+  useEffect(() => {
+    handleCloseModal();
+  }, [currentUser]);
 
   return (
     <header>
-      <div className="logo">Minitodo</div>
-      <div className="search">
+      <div className="header-logo">
+        <Link to="/">Minitodo</Link>
+      </div>
+      <div className="header-search">
         <input type="search" />
       </div>
-      <div className="right-menu">
-        <div className="profile">
-          {!currentUser ? (
-            <>
-              <Link to="/signup" className="signup-btn">
-                Sign Up
-              </Link>
-              <Link to="/login" className="login-btn">
-                Login
-              </Link>
-            </>
-          ) : (
+      <div className="header-menu">
+        {!currentUser ? (
+          <div className="header-menu__buttons">
+            <Link to="/signup" className="signup-btn">
+              SIGN UP
+            </Link>
+            <Link to="/login" className="login-btn">
+              LOGIN
+            </Link>
+          </div>
+        ) : (
+          <div className="header-menu__profile">
             <div onClick={onClickProfile}>
               <img src={profileImg} alt="profile" />
             </div>
-          )}
-        </div>
+          </div>
+        )}
+
         {currentUser && modalState && (
           <div ref={modalRef}>
             <ProfileModal displayName={displayName} profileImg={profileImg} handleCloseModal={handleCloseModal} />

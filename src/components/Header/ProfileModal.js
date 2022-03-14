@@ -16,13 +16,15 @@ const ProfileModal = ({ displayName, profileImg, handleCloseModal }) => {
 
   return (
     <div className="profile-modal">
-      <div className="profile-wrapper">
-        <img className="profile-img" src={profileImg} alt="profile" />
-        <p className="profile-name">{displayName}</p>
-        <button className="profile-edit">프로필 수정</button>
-      </div>
-      <div className="profile-logout">
-        <span onClick={onLogout}>로그아웃</span>
+      <div className="profile-modal__container">
+        <div className="profile-modal__image">
+          <img src={profileImg} alt="profile" />
+        </div>
+        <p className="profile-modal__name">{displayName}</p>
+        <button className="profile-modal__button-edit">프로필 수정</button>
+        <button className="profile-modal__button-logout" onClick={onLogout}>
+          로그아웃
+        </button>
       </div>
     </div>
   );
