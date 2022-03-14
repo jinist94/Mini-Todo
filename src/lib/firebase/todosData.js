@@ -30,14 +30,22 @@ export const onRemoveFinished = (todoId) => {
   onUpdateFinished(update);
 };
 
+export const onUpdateTitle = (todoId, value, type) => {
+  const { todos } = store.getState().todoReducer;
+  const update = produce(todos, (draft) => {
+    const todoIndex = draft.findIndex((todo) => todo.id === todoId);
+
+    draft[todoIndex].title = value;
+  });
+  onUpdateTodos(update);
+};
+
 // Steps
 export const onAddStep = (todoId, newStep, type) => {
   const { todos } = store.getState().todoReducer;
   const update = produce(todos, (draft) => {
     const todoIndex = draft.findIndex((todo) => todo.id === todoId);
-    draft[todoIndex].steps
-      ? (draft[todoIndex].steps = [newStep, ...draft[todoIndex].steps])
-      : (draft[todoIndex].steps = [{ ...newStep }]);
+    draft[todoIndex].steps ? (draft[todoIndex].steps = [newStep, ...draft[todoIndex].steps]) : (draft[todoIndex].steps = [{ ...newStep }]);
   });
   onUpdateTodos(update);
 };
@@ -55,9 +63,7 @@ export const onRemoveStep = (todoId, stepId) => {
   const { todos } = store.getState().todoReducer;
   const update = produce(todos, (draft) => {
     const todoIndex = draft.findIndex((todo) => todo.id === todoId);
-    const newSteps = draft[todoIndex].steps.filter(
-      (step) => step.id !== stepId
-    );
+    const newSteps = draft[todoIndex].steps.filter((step) => step.id !== stepId);
     draft[todoIndex].steps = newSteps || [];
   });
   onUpdateTodos(update);

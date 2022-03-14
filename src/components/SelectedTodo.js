@@ -1,39 +1,18 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { useDispatch } from "react-redux";
-import { updateTitle, updateDueDate } from "../modules/todo";
-
-import SelectDueDate from "./SelectDueDate";
-import DetailNote from "./DetailNote";
+import { updateDueDate } from "../modules/todo";
 import { onUpdateDueDate } from "../lib/firebase/todosData";
 import { dateForData } from "../lib/util/date";
+
+import TitleEditForm from "./Todo/TitleEditForm";
 import Steps from "./Steps";
+import SelectDueDate from "./SelectDueDate";
+import DetailNote from "./DetailNote";
 
 const SelectedTodo = ({ selectedTodo }) => {
   const { todoData, type } = selectedTodo;
-  const [titleValue, setTitleValue] = useState(todoData.title);
 
   const dispatch = useDispatch();
-
-  const onKeyDown = (event) => {
-    if (event.key === "Enter") {
-      if (event.target.value === "") {
-        setTitleValue(todoData.title);
-        return;
-      }
-      event.target.blur();
-    }
-  };
-  const onTitleChange = (event) => {
-    setTitleValue(event.target.value);
-  };
-
-  const onBlur = (event) => {
-    if (event.target.value === "") {
-      setTitleValue(todoData.title);
-      return;
-    }
-    dispatch(updateTitle(todoData.id, titleValue, type));
-  };
 
   const onSelectDueDate = (date) => {
     const convertedDate = dateForData(date);
@@ -41,15 +20,11 @@ const SelectedTodo = ({ selectedTodo }) => {
     dispatch(updateDueDate(todoData.id, convertedDate, type));
   };
 
-  useEffect(() => {
-    setTitleValue(todoData.title);
-  }, [todoData]);
-
   return (
     <div className="selected-todo">
       <div className="selected-todo__todo-box selected-todo__item">
         <h3 className="todo-box__name">
-          <input value={titleValue} onChange={onTitleChange} onKeyDown={onKeyDown} onBlur={onBlur} />
+          <TitleEditForm todoData={todoData} type={type} />
         </h3>
       </div>
       <div className="selected-todo__step-box selected-todo__item">
